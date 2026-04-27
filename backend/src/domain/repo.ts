@@ -279,3 +279,86 @@ export async function findNearestVolunteer(
   }
   return best?.volunteer ?? null;
 }
+
+/* ----- Resolutions ----- */
+
+export async function findLatestActiveNeedForVolunteer(
+  volunteerPublicId: string,
+): Promise<Need | null> {
+  const db = getDb();
+  const snap = await db
+    .collection('needs')
+    .where('assignedTo', '==', volunteerPublicId)
+    .where('status', 'in', ['in_progress', 'assigned'])
+    .orderBy('updatedAt', 'desc')
+    .limit(1)
+    .get();
+  if (snap.empty) return null;
+  return snap.docs[0].data() as Need;
+}
+
+export interface SaveResolutionInput {
+  needId: string;
+  volunteerPublicId: string;
+  photoUrl: string;
+  verification: {
+    verified: boolean;
+    confidence: number;
+    reason: string;
+    observations?: string | null;
+  };
+}
+
+export async function saveResolution(
+  input: SaveResolutionInput,
+): Promise<string> {
+  const db = getDb();
+  const now = Timestamp.now();
+  const ref = db.collection('resolutions').doc();
+
+  await db.runTransaction(async (tx) => {
+    const needRef = db.collection('needs').doc(input.needId);
+    const needSnap = await tx.get(needRef);
+    if (!needSnap.exists) {
+      throw new Error(`Need ${input.needId} not found`);
+    }
+
+    tx.set(ref, {
+      id: ref.id,
+      needId: input.needId,
+      volunteerPublicId: input.volunteerPublicId,
+      photoUrl: input.photoUrl,
+      verified: input.verification.verified,
+      verificationConfidence: input.verification.confidence,
+      verificationReason: input.verification.reason,
+      observations: input.verification.observations ?? null,
+      resolvedAt: now,
+    });
+
+    if (input.verification.verified) {
+      tx.update(needRef, {
+        status: 'verified',
+        resolvedAt: now,
+        verifiedAt: now,
+        verifiedPhotoUrl: input.photoUrl,
+        latestPhotoUrl: input.photoUrl,
+        updatedAt: now,
+      });
+    } else {
+      tx.update(needRef, {
+        latestPhotoUrl: input.photoUrl,
+        updatedAt: now,
+      });
+    }
+  });
+
+  logger.info(
+    {
+      resolutionId: ref.id,
+      needId: input.needId,
+      verified: input.verification.verified,
+    },
+    'resolution saved',
+  );
+  return ref.id;
+}

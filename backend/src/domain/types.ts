@@ -84,6 +84,9 @@ export interface Need {
   status: NeedStatus;
   assignedTo: string | null;
   reasoning: string | null;
+  verifiedPhotoUrl?: string | null;
+  verifiedAt?: FirebaseFirestore.Timestamp | null;
+  latestPhotoUrl?: string | null;
   createdAt: FirebaseFirestore.Timestamp;
   updatedAt: FirebaseFirestore.Timestamp;
   resolvedAt?: FirebaseFirestore.Timestamp | null;
@@ -120,5 +123,6 @@ export interface Resolution {
   verified: boolean;
   verificationConfidence: number | null;
   verificationReason: string | null;
+  observations: string | null;
   resolvedAt: FirebaseFirestore.Timestamp;
 }

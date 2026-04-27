@@ -51,9 +51,19 @@ For Firestore (database), Auth, and Hosting.
 1. **Build → Hosting → Get started**.
 2. Just click through — we'll deploy in Phase 8.
 
-### 2e. Download service account JSON
+### 2e. Enable Storage
 
-This is what the backend uses to authenticate to Firestore.
+For volunteer-submitted resolution photos.
+
+1. **Build → Storage → Get started**.
+2. Pick **Production mode**.
+3. Use the same location as Firestore (**asia-south1 / Mumbai**).
+4. Note the bucket name shown at the top — usually `<project-id>.firebasestorage.app`.
+5. If your bucket ends in `.appspot.com` (older projects), set `FIREBASE_STORAGE_BUCKET=<project-id>.appspot.com` in `backend/.env`. Otherwise leave it blank — the backend resolves it automatically.
+
+### 2f. Download service account JSON
+
+This is what the backend uses to authenticate to Firestore + Storage.
 
 1. Click the gear icon (⚙) next to **Project Overview** → **Project settings**.
 2. **Service accounts** tab → **Generate new private key** → confirm.

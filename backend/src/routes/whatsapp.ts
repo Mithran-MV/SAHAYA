@@ -10,8 +10,15 @@ import {
 import { processExtraction } from '../pipeline/processNeeds';
 import { dispatchVolunteerForNeed } from '../pipeline/dispatchVolunteer';
 import { handleVolunteerCommand } from '../pipeline/volunteerCommands';
-import { getNeed } from '../domain/repo';
+import { verifyResolutionPhoto } from '../pipeline/verifyResolution';
+import {
+  findLatestActiveNeedForVolunteer,
+  getNeed,
+  getVolunteerByPhone,
+  saveResolution,
+} from '../domain/repo';
 import { isFirebaseConfigured } from '../lib/firebase';
+import { uploadPhoto } from '../lib/storage';
 import type { ExtractionResult, RawReporter } from '../domain/types';
 
 export const whatsappRouter = Router();
@@ -49,7 +56,7 @@ whatsappRouter.post('/', async (req, res) => {
   const text = typeof Body === 'string' ? Body.trim() : '';
 
   // Volunteer slash-commands take priority over need extraction.
-  if (text.toLowerCase().startsWith('/v')) {
+  if (text.toLowerCase().startsWith('/v') && !isImageMedia(MediaContentType0)) {
     if (!isFirebaseConfigured()) {
       twiml.message(
         'Volunteer features need Firestore configured. See docs/SETUP.md.',
@@ -62,6 +69,30 @@ whatsappRouter.post('/', async (req, res) => {
     } catch (err) {
       logger.error({ err }, 'volunteer command failed');
       twiml.message('⚠️ Command failed. Try /v help.');
+    }
+    return res.type('text/xml').send(twiml.toString());
+  }
+
+  // Photo path: volunteer submitting resolution evidence.
+  if (isImageMedia(MediaContentType0) && typeof MediaUrl0 === 'string') {
+    if (!isFirebaseConfigured()) {
+      twiml.message('Photo verification needs Firestore + Storage. See docs/SETUP.md.');
+      return res.type('text/xml').send(twiml.toString());
+    }
+    if (!config.gemini.apiKey) {
+      twiml.message('Photo verification needs GEMINI_API_KEY. See docs/SETUP.md.');
+      return res.type('text/xml').send(twiml.toString());
+    }
+    try {
+      const reply = await handlePhotoSubmission({
+        mediaUrl: MediaUrl0,
+        captionText: text,
+        raw,
+      });
+      twiml.message(reply);
+    } catch (err) {
+      logger.error({ err }, 'photo verification failed');
+      twiml.message('⚠️ Could not process the photo. Please try again or contact support.');
     }
     return res.type('text/xml').send(twiml.toString());
   }
@@ -130,6 +161,88 @@ whatsappRouter.post('/', async (req, res) => {
     return res.type('text/xml').send(twiml.toString());
   }
 });
+
+function isImageMedia(contentType: unknown): contentType is string {
+  return typeof contentType === 'string' && contentType.startsWith('image/');
+}
+
+interface PhotoSubmissionInput {
+  mediaUrl: string;
+  captionText: string;
+  raw: RawReporter;
+}
+
+async function handlePhotoSubmission(
+  input: PhotoSubmissionInput,
+): Promise<string> {
+  const v = await getVolunteerByPhone(input.raw.phone);
+  if (!v) {
+    return 'Photos are processed for registered volunteers. Use /v register first, then /v claim <needId>, then send the photo.';
+  }
+
+  // Resolve target need: explicit caption "/v done <id>" wins; else most recent active need.
+  let targetNeedId: string | null = null;
+  const captionLower = input.captionText.toLowerCase();
+  if (captionLower.startsWith('/v done ') || captionLower.startsWith('/v verify ')) {
+    const parts = input.captionText.trim().split(/\s+/);
+    if (parts.length >= 3) targetNeedId = parts[2];
+  }
+  if (!targetNeedId) {
+    const latest = await findLatestActiveNeedForVolunteer(v.publicId);
+    if (latest) targetNeedId = latest.id;
+  }
+  if (!targetNeedId) {
+    return "Couldn't find a need to verify. Use /v claim <needId> first, then send the photo.";
+  }
+
+  const need = await getNeed(targetNeedId);
+  if (!need) return `Need ${targetNeedId} not found.`;
+
+  const photo = await downloadTwilioMedia(input.mediaUrl);
+  const verification = await verifyResolutionPhoto(
+    { data: photo.data, mimeType: photo.mimeType },
+    need,
+  );
+
+  const objectPath = `resolutions/${targetNeedId}/${Date.now()}.${guessExtension(photo.mimeType)}`;
+  const photoUrl = await uploadPhoto(photo.data, photo.mimeType, objectPath);
+
+  await saveResolution({
+    needId: targetNeedId,
+    volunteerPublicId: v.publicId,
+    photoUrl,
+    verification: {
+      verified: verification.verified,
+      confidence: verification.confidence,
+      reason: verification.reason,
+      observations: verification.observations ?? null,
+    },
+  });
+
+  const conf = (verification.confidence * 100).toFixed(0);
+  if (verification.verified) {
+    return [
+      `✅ VERIFIED (${conf}% confidence)`,
+      verification.reason,
+      ``,
+      `Need ${targetNeedId} marked resolved. Thank you 🙏`,
+    ].join('\n');
+  }
+  return [
+    `⚠️ Could not verify (${conf}% confidence)`,
+    verification.reason,
+    ``,
+    `Need ${targetNeedId} is still in progress. Send a clearer photo or /v release ${targetNeedId} to release it.`,
+  ].join('\n');
+}
+
+function guessExtension(mimeType: string): string {
+  if (mimeType.includes('jpeg') || mimeType.includes('jpg')) return 'jpg';
+  if (mimeType.includes('png')) return 'png';
+  if (mimeType.includes('webp')) return 'webp';
+  if (mimeType.includes('gif')) return 'gif';
+  return 'bin';
+}
 
 function composeSummary(
   extraction: ExtractionResult,
