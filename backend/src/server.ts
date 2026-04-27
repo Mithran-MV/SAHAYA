@@ -3,8 +3,10 @@ import cors from 'cors';
 import helmet from 'helmet';
 import pinoHttp from 'pino-http';
 import { logger } from './lib/logger';
+import { config } from './lib/config';
 import { healthRouter } from './routes/health';
 import { whatsappRouter } from './routes/whatsapp';
+import { testRouter } from './routes/test';
 
 export function createServer(): express.Express {
   const app = express();
@@ -20,6 +22,9 @@ export function createServer(): express.Express {
 
   app.use('/health', healthRouter);
   app.use('/whatsapp', whatsappRouter);
+  if (config.nodeEnv !== 'production') {
+    app.use('/test', testRouter);
+  }
 
   app.get('/', (_req, res) => {
     res.json({
