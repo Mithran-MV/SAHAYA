@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Deploy everything: Firestore rules -> backend -> web.
-# Run after first-time setup (see docs/DEPLOY.md).
+# Deploy everything: backend (Cloud Run) -> web (Vercel).
+# See docs/DEPLOY.md for first-time setup.
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
@@ -14,15 +14,14 @@ if [[ -f backend/.env ]]; then
   set +a
 fi
 
-: "${FIREBASE_PROJECT_ID:?FIREBASE_PROJECT_ID required (set in backend/.env or export it)}"
+PROJECT_ID="${PROJECT_ID:-${GOOGLE_CLOUD_PROJECT:-}}"
+: "${PROJECT_ID:?PROJECT_ID required (export it or set GOOGLE_CLOUD_PROJECT)}"
 
 echo "════════════════════════════════════════"
 echo "  SAHAYA — full deploy"
-echo "  Project: ${FIREBASE_PROJECT_ID}"
+echo "  Project:   ${PROJECT_ID}"
 echo "════════════════════════════════════════"
 
-./scripts/deploy-firestore.sh
-echo ""
 ./scripts/deploy-backend.sh
 echo ""
 ./scripts/deploy-web.sh
@@ -30,4 +29,5 @@ echo ""
 echo ""
 echo "════════════════════════════════════════"
 echo "  ✅ Deploy complete."
+echo "  Don't forget: configure Twilio webhook → <cloud-run-url>/whatsapp"
 echo "════════════════════════════════════════"

@@ -1,6 +1,6 @@
 # SAHAYA — Deployment Runbook
 
-End-to-end deployment of SAHAYA to Google Cloud + Firebase. Estimated time: 25 minutes.
+Backend → Cloud Run. Web → Vercel. Estimated time: 15 minutes.
 
 ## Prerequisites
 
@@ -8,18 +8,17 @@ End-to-end deployment of SAHAYA to Google Cloud + Firebase. Estimated time: 25 m
 # install gcloud (macOS)
 brew install --cask google-cloud-sdk
 
-# install Firebase CLI
-npm install -g firebase-tools
+# install Vercel CLI
+npm install -g vercel
 
 # verify
 gcloud --version
-firebase --version
+vercel --version
 ```
 
 You also need:
 - A Google Cloud project with **billing enabled** (free tier covers everything we use)
-- The same project linked to a Firebase project — these are the same GCP project under the hood
-- All four API keys from [docs/SETUP.md](./SETUP.md) already in `backend/.env`
+- All three API keys from [SETUP.md](./SETUP.md) already in `backend/.env`
 
 ---
 
@@ -28,13 +27,12 @@ You also need:
 ```bash
 gcloud auth login
 gcloud auth application-default login
-firebase login
+vercel login
 ```
 
 ```bash
-export FIREBASE_PROJECT_ID="your-project-id"
-gcloud config set project "$FIREBASE_PROJECT_ID"
-firebase use "$FIREBASE_PROJECT_ID"
+export PROJECT_ID="<your-gcp-project-id>"   # find this in GCP Console
+gcloud config set project "$PROJECT_ID"
 ```
 
 ---
@@ -48,104 +46,72 @@ gcloud services enable \
   run.googleapis.com \
   cloudbuild.googleapis.com \
   artifactregistry.googleapis.com \
-  firestore.googleapis.com \
-  firebasestorage.googleapis.com \
   geocoding-backend.googleapis.com \
   maps-backend.googleapis.com \
-  places-backend.googleapis.com \
-  --project "$FIREBASE_PROJECT_ID"
+  --project "$PROJECT_ID"
 ```
 
 ---
 
-## Step 3 — Grant the Cloud Run service account access to Firestore + Storage
-
-Cloud Run uses the Compute Engine default service account by default.
-
-```bash
-PROJECT_NUMBER=$(gcloud projects describe "$FIREBASE_PROJECT_ID" --format='value(projectNumber)')
-SA="${PROJECT_NUMBER}-compute@developer.gserviceaccount.com"
-
-gcloud projects add-iam-policy-binding "$FIREBASE_PROJECT_ID" \
-  --member="serviceAccount:${SA}" \
-  --role="roles/datastore.user"
-
-gcloud projects add-iam-policy-binding "$FIREBASE_PROJECT_ID" \
-  --member="serviceAccount:${SA}" \
-  --role="roles/storage.objectAdmin"
-```
-
----
-
-## Step 4 — Deploy Firestore rules + indexes
-
-```bash
-./scripts/deploy-firestore.sh
-```
-
-Or manually:
-
-```bash
-firebase deploy --only firestore:rules,firestore:indexes
-```
-
----
-
-## Step 5 — Deploy backend to Cloud Run
-
-Make sure the env vars are exported in your shell (they come from `backend/.env`):
+## Step 3 — Deploy backend to Cloud Run
 
 ```bash
 set -a; source backend/.env; set +a
+export PROJECT_ID         # set if you haven't already
 ./scripts/deploy-backend.sh
 ```
 
-The script prints the Cloud Run URL at the end. **Copy it** — you'll need it for Twilio.
+The script prints the Cloud Run URL at the end. **Copy it** — you'll need it for Twilio + the dashboard.
 
 Example URL: `https://sahaya-backend-xxxxxx-el.a.run.app`
 
+> The deploy script sets `--min-instances=1` to keep the in-memory store warm between requests. This costs ~$3/month at idle but means real WhatsApp data persists during the demo session.
+
 ---
 
-## Step 6 — Configure the Twilio webhook
+## Step 4 — Configure the Twilio webhook
 
-1. Go to <https://console.twilio.com/> → Messaging → Try it out → WhatsApp Sandbox.
-2. Under **Sandbox settings**, set:
+1. Twilio Console → Messaging → Try it out → WhatsApp Sandbox.
+2. **Sandbox settings**:
    - **When a message comes in**: `https://<cloud-run-url>/whatsapp`
    - **HTTP method**: `POST`
 3. Save.
 
 ---
 
-## Step 7 — Seed the demo dataset
+## Step 5 — Deploy the web dashboard to Vercel
 
 ```bash
-cd backend
-npm run seed:wipe
+cd web
+# First time only:
+vercel link               # creates .vercel/project.json, scoped to your account
+# Set env vars on Vercel:
+vercel env add NEXT_PUBLIC_API_URL production
+# (paste the Cloud Run URL from step 3)
+vercel env add NEXT_PUBLIC_GOOGLE_MAPS_API_KEY production
+# (paste your Maps web key)
+vercel deploy --prod
 ```
 
-This populates 47 needs, 10 volunteers, 5 ASHA workers, and 31 verified resolutions across 5 villages. Use this **before** recording the video so the dashboard looks alive.
+Or just push to GitHub with the Vercel GitHub integration enabled — Vercel auto-deploys.
+
+You'll get a URL like `https://sahaya-mithran-mv.vercel.app`. **This is the URL you submit to Hack2Skill.**
 
 ---
 
-## Step 8 — Deploy the web dashboard
+## Step 6 — Re-deploy with Maps key bound to your Vercel domain
 
-Make sure `web/.env.local` is filled in (Firebase web SDK config + Maps key).
-
-```bash
-./scripts/deploy-web.sh
-```
-
-The script prints the Firebase Hosting URL — usually `https://<project-id>.web.app`. **This is the URL you submit to Hack2Skill.**
+After step 5, go back to [GCP Console → Credentials](https://console.cloud.google.com/google/maps-apis/credentials), open your Maps web key, and add the Vercel domain (e.g. `*.vercel.app/*` or your custom domain) to the HTTP referrer allowlist. Otherwise the heatmap will silently fail in production.
 
 ---
 
-## All-in-one (after first-time setup is done)
+## All-in-one deploy script
 
 ```bash
 ./scripts/deploy-all.sh
 ```
 
-Runs steps 4, 5, and 8 in order.
+Runs steps 3 and 5 in order. Assumes you've authenticated already and have `vercel link` done.
 
 ---
 
@@ -154,21 +120,24 @@ Runs steps 4, 5, and 8 in order.
 ```bash
 # 1. Backend health
 curl -s https://<cloud-run-url>/health | jq
+# Should return: {"status":"ok",...,"integrations":{"gemini":true,"maps":true,"twilio":true},
+#                 "store":{"counts":{"needs":48,...}}}
 
-# Should return: {"status":"ok",...,"integrations":{"gemini":true,"firebase":true,...}}
+# 2. API
+curl -s "https://<cloud-run-url>/api/stats" | jq
 
-# 2. Dashboard
-open https://<project-id>.web.app
+# 3. Dashboard
+open https://<your-vercel-url>
 
-# 3. Send a WhatsApp voice note from your sandbox-joined phone to the Twilio number.
-# You should see an ack message within ~3 seconds and a new card on the dashboard.
+# 4. Send a WhatsApp voice note from your sandbox-joined phone to +1 415 523 8886.
+# You should see an ack message within ~3 seconds and a new card on the dashboard within 5s.
 ```
 
 ---
 
 ## Rollback
 
-Cloud Run keeps revisions — to roll back:
+Cloud Run keeps revisions — to roll back the backend:
 
 ```bash
 gcloud run services update-traffic sahaya-backend \
@@ -176,24 +145,30 @@ gcloud run services update-traffic sahaya-backend \
   --region=asia-south1
 ```
 
-Firebase Hosting also keeps versions — roll back from the Firebase console → Hosting → Release history.
+Vercel keeps deployments — roll back from the Vercel dashboard → Deployments → Promote to Production on a prior deploy.
 
 ---
 
 ## Troubleshooting
 
-### "Permission denied on resource project"
-Re-run step 1, then step 3.
+### Cloud Run service starts but `/health` shows `gemini: false`
+Env var `GEMINI_API_KEY` wasn't passed to the service. Re-run `./scripts/deploy-backend.sh`.
 
-### Cloud Build fails
-Make sure `cloudbuild.googleapis.com` is enabled (step 2) and the user running deploy has the `Cloud Build Editor` role.
-
-### Cloud Run service starts but `/health` shows `firebase: false`
-The Cloud Run service account is missing Firestore role. Re-run step 3.
+### Cloud Run gets 429 from Gemini ("Quota exceeded ... limit: 0, model: gemini-2.0-flash")
+You're using a project where Gemini 2.0 Flash has been removed from the free tier. SAHAYA already pins to `gemini-2.5-flash` (which still has free tier). If you see this error, the model in `backend/src/pipeline/extractNeeds.ts` was reverted somehow — check for `GEMINI_MODEL = 'gemini-2.5-flash'`.
 
 ### Twilio webhook returns 502
-Check Cloud Run logs:
+Tail Cloud Run logs:
 ```bash
 gcloud run services logs tail sahaya-backend --region asia-south1
 ```
-Most common cause: missing env var. Verify in Cloud Run console → Edit & deploy → Variables.
+Most common cause: missing `GEMINI_API_KEY` or `TWILIO_AUTH_TOKEN` env var. Verify in Cloud Run console → Edit & deploy → Variables.
+
+### Dashboard shows "NEXT_PUBLIC_API_URL is not configured"
+You set the env var on Vercel but forgot to redeploy. Run `vercel deploy --prod` again.
+
+### Maps doesn't render in production but works locally
+The Maps key isn't authorized for your Vercel domain. Step 6.
+
+### Demo data disappears after a while
+Cloud Run scaled to zero. Add `--min-instances=1` (already in the deploy script). If you deployed without it, redeploy.

@@ -1,14 +1,7 @@
 /**
- * Wire-format types for documents read from Firestore from the browser.
- *
- * Mirrors backend/src/domain/types.ts but uses {seconds, nanoseconds} for
- * Timestamps because that's what the Firebase Web SDK gives us.
+ * Wire-format types returned by the SAHAYA backend REST API.
+ * All timestamps are ISO-8601 strings so they JSON-serialize cleanly.
  */
-
-export interface FirestoreTimestamp {
-  seconds: number;
-  nanoseconds: number;
-}
 
 export interface NeedReporter {
   publicId: string;
@@ -60,8 +53,23 @@ export interface Need {
   reasoning: string | null;
   verifiedPhotoUrl?: string | null;
   latestPhotoUrl?: string | null;
-  createdAt: FirestoreTimestamp;
-  updatedAt: FirestoreTimestamp;
-  resolvedAt?: FirestoreTimestamp | null;
-  verifiedAt?: FirestoreTimestamp | null;
+  createdAt: string;
+  updatedAt: string;
+  resolvedAt?: string | null;
+  verifiedAt?: string | null;
+}
+
+export interface ApiNeedsResponse {
+  count: number;
+  needs: Need[];
+}
+
+export interface NeedsStats {
+  total: number;
+  open: number;
+  resolved: number;
+  avgResolutionMs: number;
+  byType: Record<string, number>;
+  byUrgency: Record<string, number>;
+  byLanguage: Record<string, number>;
 }

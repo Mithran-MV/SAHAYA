@@ -17,8 +17,6 @@ import {
   getVolunteerByPhone,
   saveResolution,
 } from '../domain/repo';
-import { isFirebaseConfigured } from '../lib/firebase';
-import { uploadPhoto } from '../lib/storage';
 import type { ExtractionResult, RawReporter } from '../domain/types';
 
 export const whatsappRouter = Router();
@@ -57,12 +55,6 @@ whatsappRouter.post('/', async (req, res) => {
 
   // Volunteer slash-commands take priority over need extraction.
   if (text.toLowerCase().startsWith('/v') && !isImageMedia(MediaContentType0)) {
-    if (!isFirebaseConfigured()) {
-      twiml.message(
-        'Volunteer features need Firestore configured. See docs/SETUP.md.',
-      );
-      return res.type('text/xml').send(twiml.toString());
-    }
     try {
       const reply = await handleVolunteerCommand(text.slice(2).trim(), raw);
       twiml.message(reply);
@@ -75,10 +67,6 @@ whatsappRouter.post('/', async (req, res) => {
 
   // Photo path: volunteer submitting resolution evidence.
   if (isImageMedia(MediaContentType0) && typeof MediaUrl0 === 'string') {
-    if (!isFirebaseConfigured()) {
-      twiml.message('Photo verification needs Firestore + Storage. See docs/SETUP.md.');
-      return res.type('text/xml').send(twiml.toString());
-    }
     if (!config.gemini.apiKey) {
       twiml.message('Photo verification needs GEMINI_API_KEY. See docs/SETUP.md.');
       return res.type('text/xml').send(twiml.toString());
@@ -86,18 +74,19 @@ whatsappRouter.post('/', async (req, res) => {
     try {
       const reply = await handlePhotoSubmission({
         mediaUrl: MediaUrl0,
+        mediaContentType: MediaContentType0,
         captionText: text,
         raw,
       });
       twiml.message(reply);
     } catch (err) {
       logger.error({ err }, 'photo verification failed');
-      twiml.message('⚠️ Could not process the photo. Please try again or contact support.');
+      twiml.message('⚠️ Could not process the photo. Please try again.');
     }
     return res.type('text/xml').send(twiml.toString());
   }
 
-  // ASHA worker reporting flow.
+  // ASHA reporting flow.
   try {
     if (!config.gemini.apiKey) {
       twiml.message(
@@ -132,16 +121,14 @@ whatsappRouter.post('/', async (req, res) => {
     const outcome = await processExtraction(extraction, raw);
 
     let dispatched = 0;
-    if (outcome.persisted) {
-      for (const id of outcome.savedIds) {
-        try {
-          const need = await getNeed(id);
-          if (!need) continue;
-          const result = await dispatchVolunteerForNeed(need);
-          if (result.matched) dispatched++;
-        } catch (err) {
-          logger.error({ err, needId: id }, 'dispatch failed for need');
-        }
+    for (const id of outcome.savedIds) {
+      try {
+        const need = await getNeed(id);
+        if (!need) continue;
+        const result = await dispatchVolunteerForNeed(need);
+        if (result.matched) dispatched++;
+      } catch (err) {
+        logger.error({ err, needId: id }, 'dispatch failed for need');
       }
     }
 
@@ -151,13 +138,12 @@ whatsappRouter.post('/', async (req, res) => {
         outcome.savedIds.length,
         outcome.geocodedCount,
         dispatched,
-        outcome.persisted,
       ),
     );
     return res.type('text/xml').send(twiml.toString());
   } catch (err) {
     logger.error({ err }, 'whatsapp pipeline failed');
-    twiml.message('⚠️ Something went wrong processing your message. The team has been notified.');
+    twiml.message('⚠️ Something went wrong processing your message.');
     return res.type('text/xml').send(twiml.toString());
   }
 });
@@ -168,19 +154,17 @@ function isImageMedia(contentType: unknown): contentType is string {
 
 interface PhotoSubmissionInput {
   mediaUrl: string;
+  mediaContentType: string;
   captionText: string;
   raw: RawReporter;
 }
 
-async function handlePhotoSubmission(
-  input: PhotoSubmissionInput,
-): Promise<string> {
+async function handlePhotoSubmission(input: PhotoSubmissionInput): Promise<string> {
   const v = await getVolunteerByPhone(input.raw.phone);
   if (!v) {
     return 'Photos are processed for registered volunteers. Use /v register first, then /v claim <needId>, then send the photo.';
   }
 
-  // Resolve target need: explicit caption "/v done <id>" wins; else most recent active need.
   let targetNeedId: string | null = null;
   const captionLower = input.captionText.toLowerCase();
   if (captionLower.startsWith('/v done ') || captionLower.startsWith('/v verify ')) {
@@ -204,13 +188,14 @@ async function handlePhotoSubmission(
     need,
   );
 
-  const objectPath = `resolutions/${targetNeedId}/${Date.now()}.${guessExtension(photo.mimeType)}`;
-  const photoUrl = await uploadPhoto(photo.data, photo.mimeType, objectPath);
-
-  await saveResolution({
+  // Photo storage strategy without Firebase: keep the original Twilio URL + auth on the
+  // backend; expose a proxied path the dashboard can fetch publicly.
+  const resolutionId = await saveResolution({
     needId: targetNeedId,
     volunteerPublicId: v.publicId,
-    photoUrl,
+    photoUrl: '', // populated below once we know the proxy path
+    twilioMediaUrl: input.mediaUrl,
+    twilioMediaContentType: input.mediaContentType,
     verification: {
       verified: verification.verified,
       confidence: verification.confidence,
@@ -218,6 +203,7 @@ async function handlePhotoSubmission(
       observations: verification.observations ?? null,
     },
   });
+  await rewriteResolutionPhotoUrl(resolutionId);
 
   const conf = (verification.confidence * 100).toFixed(0);
   if (verification.verified) {
@@ -236,12 +222,18 @@ async function handlePhotoSubmission(
   ].join('\n');
 }
 
-function guessExtension(mimeType: string): string {
-  if (mimeType.includes('jpeg') || mimeType.includes('jpg')) return 'jpg';
-  if (mimeType.includes('png')) return 'png';
-  if (mimeType.includes('webp')) return 'webp';
-  if (mimeType.includes('gif')) return 'gif';
-  return 'bin';
+async function rewriteResolutionPhotoUrl(resolutionId: string): Promise<void> {
+  const base = config.publicBaseUrl ?? '';
+  const proxyPath = `${base}/media/${resolutionId}`;
+  const { store } = await import('../lib/store');
+  const r = store.resolutions.get(resolutionId);
+  if (r) r.photoUrl = proxyPath;
+  // Also update the linked need's verifiedPhotoUrl/latestPhotoUrl pointer.
+  const need = r ? store.needs.get(r.needId) : null;
+  if (need) {
+    if (need.verifiedPhotoUrl) need.verifiedPhotoUrl = proxyPath;
+    need.latestPhotoUrl = proxyPath;
+  }
 }
 
 function composeSummary(
@@ -249,10 +241,9 @@ function composeSummary(
   persisted: number,
   geocoded: number,
   dispatched: number,
-  persistedFlag: boolean,
 ): string {
   if (extraction.needs.length === 0) {
-    return `✅ Heard you (${extraction.language.toUpperCase()}). I didn't pick up a specific community need — could you say it again with a bit more detail?`;
+    return `✅ Heard you (${extraction.language.toUpperCase()}). I didn't pick up a specific community need — could you say it again with more detail?`;
   }
 
   const lines: string[] = [
@@ -268,13 +259,9 @@ function composeSummary(
   if (extraction.needs.length > 5) {
     lines.push(`…and ${extraction.needs.length - 5} more.`);
   }
-  if (persistedFlag) {
-    const geoTag = geocoded > 0 ? `, ${geocoded} mapped` : '';
-    const dispatchTag =
-      dispatched > 0 ? `, ${dispatched} volunteer${dispatched === 1 ? '' : 's'} pinged` : '';
-    lines.push(`\n📍 ${persisted} logged${geoTag}${dispatchTag}.`);
-  } else {
-    lines.push('\n(Preview mode — not persisted.)');
-  }
+  const geoTag = geocoded > 0 ? `, ${geocoded} mapped` : '';
+  const dispatchTag =
+    dispatched > 0 ? `, ${dispatched} volunteer${dispatched === 1 ? '' : 's'} pinged` : '';
+  lines.push(`\n📍 ${persisted} logged${geoTag}${dispatchTag}.`);
   return lines.join('\n');
 }

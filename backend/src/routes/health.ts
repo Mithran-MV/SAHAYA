@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { config } from '../lib/config';
+import { store } from '../lib/store';
 
 const startedAt = Date.now();
 
@@ -14,9 +15,9 @@ healthRouter.get('/', (_req, res) => {
     uptimeMs: Date.now() - startedAt,
     integrations: {
       gemini: Boolean(config.gemini.apiKey),
-      firebase: Boolean(config.firebase.projectId),
       maps: Boolean(config.maps.apiKey),
       twilio: Boolean(config.twilio.accountSid && config.twilio.authToken),
     },
+    store: store.snapshot(),
   });
 });

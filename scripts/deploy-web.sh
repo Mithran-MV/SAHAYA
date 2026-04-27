@@ -1,25 +1,32 @@
 #!/usr/bin/env bash
-# Build the Next.js dashboard and deploy to Firebase Hosting.
+# Build the Next.js dashboard and deploy to Vercel.
+#
+# Required:
+#   - vercel CLI installed (`npm i -g vercel`)
+#   - You ran `vercel login` and `cd web && vercel link` once
+#   - Vercel env vars set:
+#       NEXT_PUBLIC_API_URL=<your-cloud-run-url>
+#       NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=<your-maps-web-key>
+#     Set them with: cd web && vercel env add <NAME> production
 set -euo pipefail
-
-: "${FIREBASE_PROJECT_ID:?FIREBASE_PROJECT_ID required}"
 
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "${REPO_ROOT}/web"
 
-if [[ ! -f .env.local ]]; then
-  echo "❌ web/.env.local not found. Copy from web/.env.local.example first."
+if ! command -v vercel >/dev/null 2>&1; then
+  echo "❌ vercel CLI not installed. Run: npm install -g vercel"
   exit 1
 fi
 
-echo "▶ [1/2] Building Next.js static export…"
-npm run build
+if [[ ! -d .vercel ]]; then
+  echo "❌ This web directory isn't linked to a Vercel project yet."
+  echo "   Run once: cd web && vercel link"
+  exit 1
+fi
 
-cd "${REPO_ROOT}"
-echo "▶ [2/2] Deploying to Firebase Hosting…"
-firebase deploy \
-  --only hosting \
-  --project "${FIREBASE_PROJECT_ID}"
+echo "▶ Deploying to Vercel (production)…"
+vercel deploy --prod --yes
 
+echo ""
 echo "✅ Dashboard deployed."
-firebase hosting:channel:list --project "${FIREBASE_PROJECT_ID}" 2>/dev/null | head -5 || true
+echo "   Visit your Vercel project at https://vercel.com/dashboard for the URL."

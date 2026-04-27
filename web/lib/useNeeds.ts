@@ -1,24 +1,9 @@
 'use client';
-import { useEffect, useMemo, useState } from 'react';
-import {
-  collection,
-  limit,
-  onSnapshot,
-  orderBy,
-  query,
-} from 'firebase/firestore';
-import { getDb, isFirebaseConfigured } from './firebase';
-import type { Need } from './types';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { fetchNeeds, fetchStats, getApiBase } from './api';
+import type { Need, NeedsStats } from './types';
 
-export interface NeedsStats {
-  total: number;
-  open: number;
-  resolved: number;
-  avgResolutionMs: number;
-  byType: Record<string, number>;
-  byUrgency: Record<string, number>;
-  byLanguage: Record<string, number>;
-}
+const POLL_INTERVAL_MS = 5_000;
 
 const EMPTY_STATS: NeedsStats = {
   total: 0,
@@ -32,73 +17,69 @@ const EMPTY_STATS: NeedsStats = {
 
 export function useNeeds() {
   const [needs, setNeeds] = useState<Need[]>([]);
+  const [serverStats, setServerStats] = useState<NeedsStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const aborted = useRef(false);
 
   useEffect(() => {
-    let cancelled = false;
+    aborted.current = false;
+    const controller = new AbortController();
 
-    if (!isFirebaseConfigured()) {
-      // Fallback to demo dataset bundled with the static export.
-      fetch('/demo.json')
-        .then((r) => (r.ok ? r.json() : { needs: [] }))
-        .then((data) => {
-          if (!cancelled) {
-            setNeeds(data.needs ?? []);
-            setLoading(false);
-          }
-        })
-        .catch((err) => {
-          if (!cancelled) {
-            console.warn('demo.json unavailable', err);
-            setLoading(false);
-          }
-        });
+    const apiBase = getApiBase();
+    if (!apiBase) {
+      setLoading(false);
+      setError(
+        'NEXT_PUBLIC_API_URL is not configured. The dashboard polls the backend for live data.',
+      );
       return () => {
-        cancelled = true;
+        aborted.current = true;
       };
     }
 
-    const db = getDb();
-    if (!db) {
-      setLoading(false);
-      return;
-    }
-
-    const q = query(
-      collection(db, 'needs'),
-      orderBy('createdAt', 'desc'),
-      limit(200),
-    );
-
-    const unsub = onSnapshot(
-      q,
-      (snap) => {
-        if (cancelled) return;
-        const items = snap.docs.map((d) => d.data() as Need);
-        setNeeds(items);
+    const tick = async () => {
+      try {
+        const [n, s] = await Promise.all([
+          fetchNeeds(controller.signal),
+          fetchStats(controller.signal),
+        ]);
+        if (aborted.current) return;
+        setNeeds(n.needs);
+        setServerStats(s);
         setLoading(false);
-      },
-      (err) => {
-        console.error('Firestore listen failed:', err);
-        if (!cancelled) {
-          setError(err.message);
+        setError(null);
+      } catch (err) {
+        if (controller.signal.aborted) return;
+        const message = err instanceof Error ? err.message : String(err);
+        if (message === 'AbortError') return;
+        if (!aborted.current) {
+          setError(message);
           setLoading(false);
         }
-      },
-    );
+      }
+    };
+
+    tick();
+    const interval = setInterval(tick, POLL_INTERVAL_MS);
 
     return () => {
-      cancelled = true;
-      unsub();
+      aborted.current = true;
+      controller.abort();
+      clearInterval(interval);
     };
   }, []);
 
-  const stats = useMemo<NeedsStats>(() => computeStats(needs), [needs]);
+  // Prefer server-computed stats (matches the data we render); fall back to local compute
+  // only if the server didn't return them yet (initial render).
+  const stats = useMemo<NeedsStats>(() => {
+    if (serverStats) return serverStats;
+    return computeStatsLocally(needs);
+  }, [serverStats, needs]);
+
   return { needs, stats, loading, error };
 }
 
-function computeStats(needs: Need[]): NeedsStats {
+function computeStatsLocally(needs: Need[]): NeedsStats {
   if (needs.length === 0) return EMPTY_STATS;
 
   const byType: Record<string, number> = {};
@@ -115,10 +96,11 @@ function computeStats(needs: Need[]): NeedsStats {
 
     if (n.status === 'verified' || n.status === 'resolved') {
       resolved++;
-      const start = n.createdAt?.seconds;
-      const end = n.resolvedAt?.seconds ?? n.verifiedAt?.seconds;
-      if (start && end && end > start) {
-        resolvedTimeSum += (end - start) * 1000;
+      const start = Date.parse(n.createdAt);
+      const endIso = n.resolvedAt ?? n.verifiedAt;
+      const end = endIso ? Date.parse(endIso) : NaN;
+      if (Number.isFinite(start) && Number.isFinite(end) && end > start) {
+        resolvedTimeSum += end - start;
         resolvedTimeCount++;
       }
     }

@@ -40,9 +40,9 @@ SAHAYA addresses the **upstream bottleneck**: the data is not just scattered —
 
 India has 1.04 million ASHA workers — frontline community health activists, almost all women, who walk villages every day and observe far more community needs than they can ever report. Existing tools are paper forms or English smartphone apps that assume a literacy and digital fluency they may not have. Meanwhile, NGOs and local-government volunteers, with skills and time to help, have no live signal of what is needed where.
 
-SAHAYA fixes the gap with a single insight: **don't build an app**. Build it on WhatsApp, where 500 million Indians already are. ASHA workers send 20-second voice notes in Tamil, Hindi, or English (or a code-mix). One Gemini 2.0 Flash call detects the language, transcribes, and extracts every distinct community need — type, urgency, location, beneficiary count. The closest qualified volunteer gets a WhatsApp dispatch within seconds. When the volunteer fixes the issue, they send a photo; Gemini Vision verifies it matches the original need, and the resolution is logged on a public Google Maps heatmap.
+SAHAYA fixes the gap with a single insight: **don't build an app**. Build it on WhatsApp, where 500 million Indians already are. ASHA workers send 20-second voice notes in Tamil, Hindi, or English (or a code-mix). One Gemini 2.5 Flash call detects the language, transcribes, and extracts every distinct community need — type, urgency, location, beneficiary count. The closest qualified volunteer gets a WhatsApp dispatch within seconds. When the volunteer fixes the issue, they send a photo; Gemini Vision verifies it matches the original need, and the resolution is logged on a public Google Maps heatmap.
 
-The system is built end-to-end on six Google products: Gemini 2.0 (multimodal language and vision), Cloud Firestore (real-time database with privacy-first security rules), Firebase Authentication, Firebase Hosting, Firebase Storage, and Cloud Run (the Node.js + TypeScript backend), plus Google Maps Platform (geocoding + heatmap). The reporter's phone number never leaves a private collection — public-facing data carries only an opaque `publicId` and at most a first name.
+The system is built on three Google products end-to-end: Gemini 2.5 Flash (multimodal language and vision), Cloud Run (the Node.js + TypeScript backend), and Google Maps Platform (geocoding + heatmap). The data layer is a purpose-built in-memory store (~250 lines) that auto-seeds the demo dataset on every cold start — no external database, no schema migrations, no auth keys to leak. Production swap is a one-file change to a Postgres or Cloud SQL adapter. The reporter's phone number never leaves a private map; public-facing endpoints emit only an opaque `publicId` and at most a first name.
 
 We seeded the system with 47 realistic community needs across five villages around Coimbatore (Pollachi, Sulur, Annur, Mettupalayam, Karamadai) — broken tube wells, child malnutrition, snake bites, antenatal care lapses, drainage failures, school dropout, mosquito fogging needs. 31 of those have a "verified" resolution with a photo. The dashboard shows a live heatmap, a KPI strip (today's needs, resolved count, average time-to-resolve, active languages), a live activity feed of every report and resolution, and a category breakdown. Every datum on the public side has a verified photo and a citizen-readable status.
 
@@ -52,13 +52,13 @@ The unexpected design decision that makes the solution scale: **WhatsApp IS the 
 
 ## Tech stack
 
-Gemini 2.0 Flash · Cloud Firestore · Firebase Authentication · Firebase Hosting · Firebase Storage · Cloud Run · Google Maps Platform · Next.js 15 · React 19 · Tailwind 3 · TypeScript · WhatsApp via Twilio
+Gemini 2.5 Flash · Cloud Run · Google Maps Platform · Next.js 15 · React 19 · Tailwind 3 · TypeScript · Vercel · WhatsApp via Twilio · in-memory data store (purpose-built, ~250 LOC)
 
 ---
 
 ## Demo links
 
-- **Live dashboard**: `https://<your-project-id>.web.app` (replace with your Firebase Hosting URL after deploy)
+- **Live dashboard**: `https://sahaya-<your-handle>.vercel.app` (replace with your Vercel URL after deploy)
 - **GitHub repo**: https://github.com/Mithran-MV/SAHAYA
 - **3-min video**: `<your YouTube unlisted link>` (replace after recording)
 
@@ -72,7 +72,7 @@ Gemini 2.0 Flash · Cloud Firestore · Firebase Authentication · Firebase Hosti
 
 ## What was hard / what we are proud of
 
-The hardest part was the **privacy architecture**. A naive build would have a public dashboard reading directly from a `needs` collection that contains the reporter's phone number. We instead designed a two-tier model: PII (phone, full name) lives only in `asha_workers` and `volunteers`, both of which are completely backend-only. The public `needs` collection carries only an opaque `publicId` and a first name. Firestore security rules enforce this at the platform level — no client can ever read a phone number, regardless of bugs in the frontend.
+The hardest part was the **privacy architecture**. A naive build would have a public dashboard reading directly from a `needs` collection that contains the reporter's phone number. We instead designed a two-tier model: PII (phone, full name) lives only in the backend's `asha_workers` and `volunteers` maps; the public REST API (`/api/needs`, `/api/stats`, `/api/volunteers`) emits only an opaque `publicId` and a first name. Photos uploaded via WhatsApp stay on Twilio; the backend proxies them at `/media/:resolutionId` so the Twilio Auth Token never leaves the server.
 
 The most rewarding moment was getting the Tamil voice note → structured JSON pipeline working in a single Gemini call with `responseMimeType: 'application/json'`. The same single API does language detection, transcription, and multi-need extraction; we never have to chain models. That keeps the system fast (~0.8s per voice note end-to-end) and cheap (well within the Gemini free tier).
 

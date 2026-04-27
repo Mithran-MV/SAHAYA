@@ -13,7 +13,7 @@ function getClient(): GoogleGenAI {
   return _client;
 }
 
-export const GEMINI_MODEL = 'gemini-2.0-flash';
+export const GEMINI_MODEL = 'gemini-2.5-flash';
 
 const SYSTEM_PROMPT = `You are SAHAYA, an extraction assistant for an ASHA (Accredited Social Health Activist) worker reporting community needs in rural India.
 

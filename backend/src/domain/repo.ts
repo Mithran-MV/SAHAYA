@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto';
-import { getDb, Timestamp, FieldValue } from '../lib/firebase';
 import { logger } from '../lib/logger';
+import { store } from '../lib/store';
 import { haversineKm } from '../lib/geo';
 import type {
   ExtractionResult,
@@ -9,6 +9,7 @@ import type {
   NeedReporter,
   NeedType,
   RawReporter,
+  Resolution,
   Volunteer,
 } from './types';
 
@@ -24,41 +25,37 @@ function firstName(full: string | null): string | null {
   return trimmed.split(/\s+/)[0];
 }
 
-/* ----- ASHA workers ----- */
+const nowIso = () => new Date().toISOString();
+
+/* ------------- ASHA workers ------------- */
 
 export async function ensureAshaWorker(raw: RawReporter): Promise<NeedReporter> {
-  const db = getDb();
-  const docId = normalizePhoneId(raw.phone);
-  const ref = db.collection('asha_workers').doc(docId);
-  const snap = await ref.get();
-
-  if (snap.exists) {
-    const data = snap.data() as { publicId?: string; name?: string | null };
-    await ref.update({
-      lastSeenAt: Timestamp.now(),
-      reportedNeedsCount: FieldValue.increment(0),
-    });
+  const id = normalizePhoneId(raw.phone);
+  const existing = store.ashaWorkers.get(id);
+  if (existing) {
+    existing.lastSeenAt = nowIso();
     return {
-      publicId: data.publicId ?? docId,
-      displayName: firstName(data.name ?? raw.name),
+      publicId: existing.publicId,
+      displayName: firstName(existing.name ?? raw.name),
     };
   }
 
   const publicId = randomUUID();
-  await ref.set({
-    id: docId,
+  const now = nowIso();
+  store.ashaWorkers.set(id, {
+    id,
     phone: raw.phone,
     name: raw.name,
     waId: raw.waId,
     publicId,
-    createdAt: Timestamp.now(),
-    lastSeenAt: Timestamp.now(),
+    createdAt: now,
+    lastSeenAt: now,
     reportedNeedsCount: 0,
   });
   return { publicId, displayName: firstName(raw.name) };
 }
 
-/* ----- Needs ----- */
+/* ------------- Needs ------------- */
 
 export interface PersistNeedsInput {
   reporter: NeedReporter;
@@ -69,37 +66,33 @@ export interface PersistNeedsInput {
 export async function persistNeedsFromExtraction(
   input: PersistNeedsInput,
 ): Promise<string[]> {
-  const db = getDb();
-  const now = Timestamp.now();
-  const batch = db.batch();
   const ids: string[] = [];
+  const now = nowIso();
 
-  for (let i = 0; i < input.extraction.needs.length; i++) {
-    const n = input.extraction.needs[i];
-    const loc = input.geocoded[i] ?? null;
-    const ref = db.collection('needs').doc();
-    batch.set(ref, {
-      id: ref.id,
+  input.extraction.needs.forEach((n, i) => {
+    const id = randomUUID();
+    const need: Need = {
+      id,
       reporter: input.reporter,
       rawText: input.extraction.transcription,
       rawQuote: n.rawQuote,
       needType: n.needType,
       urgency: n.urgency,
       locationHint: n.locationHint ?? null,
-      location: loc,
+      location: input.geocoded[i] ?? null,
       beneficiaryCount: n.beneficiaryCount ?? null,
       language: input.extraction.language,
-      status: 'open' as const,
+      status: 'open',
       assignedTo: null,
       reasoning: n.reasoning ?? null,
       createdAt: now,
       updatedAt: now,
       resolvedAt: null,
-    });
-    ids.push(ref.id);
-  }
+    };
+    store.needs.set(id, need);
+    ids.push(id);
+  });
 
-  await batch.commit();
   logger.info(
     { count: ids.length, reporter: input.reporter.publicId },
     'persisted needs',
@@ -108,89 +101,73 @@ export async function persistNeedsFromExtraction(
 }
 
 export async function listOpenNeeds(limit = 100): Promise<Need[]> {
-  const db = getDb();
-  const snap = await db
-    .collection('needs')
-    .where('status', '==', 'open')
-    .orderBy('createdAt', 'desc')
-    .limit(limit)
-    .get();
-  return snap.docs.map((d) => d.data() as Need);
+  return [...store.needs.values()]
+    .filter((n) => n.status === 'open')
+    .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+    .slice(0, limit);
+}
+
+export async function listAllNeeds(limit = 200): Promise<Need[]> {
+  return [...store.needs.values()]
+    .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+    .slice(0, limit);
 }
 
 export async function getNeed(id: string): Promise<Need | null> {
-  const db = getDb();
-  const snap = await db.collection('needs').doc(id).get();
-  if (!snap.exists) return null;
-  return snap.data() as Need;
+  return store.needs.get(id) ?? null;
 }
 
 export async function assignNeedToVolunteer(
   needId: string,
   volunteerPublicId: string,
 ): Promise<void> {
-  const db = getDb();
-  await db.collection('needs').doc(needId).update({
-    status: 'assigned',
-    assignedTo: volunteerPublicId,
-    updatedAt: Timestamp.now(),
-  });
+  const need = store.needs.get(needId);
+  if (!need) return;
+  need.status = 'assigned';
+  need.assignedTo = volunteerPublicId;
+  need.updatedAt = nowIso();
 }
 
 export async function claimNeed(
   needId: string,
   volunteerPublicId: string,
 ): Promise<boolean> {
-  const db = getDb();
-  const ref = db.collection('needs').doc(needId);
-  return db.runTransaction(async (tx) => {
-    const snap = await tx.get(ref);
-    if (!snap.exists) return false;
-    const need = snap.data() as Need;
-    if (
-      need.status !== 'assigned' &&
-      need.status !== 'open' &&
-      need.status !== 'in_progress'
-    ) {
-      return false;
-    }
-    if (
-      need.assignedTo &&
-      need.assignedTo !== volunteerPublicId &&
-      need.status !== 'open'
-    ) {
-      return false;
-    }
-    tx.update(ref, {
-      status: 'in_progress',
-      assignedTo: volunteerPublicId,
-      updatedAt: Timestamp.now(),
-    });
-    return true;
-  });
+  const need = store.needs.get(needId);
+  if (!need) return false;
+  if (
+    need.status !== 'assigned' &&
+    need.status !== 'open' &&
+    need.status !== 'in_progress'
+  ) {
+    return false;
+  }
+  if (
+    need.assignedTo &&
+    need.assignedTo !== volunteerPublicId &&
+    need.status !== 'open'
+  ) {
+    return false;
+  }
+  need.status = 'in_progress';
+  need.assignedTo = volunteerPublicId;
+  need.updatedAt = nowIso();
+  return true;
 }
 
 export async function releaseNeed(
   needId: string,
   volunteerPublicId: string,
 ): Promise<boolean> {
-  const db = getDb();
-  const ref = db.collection('needs').doc(needId);
-  return db.runTransaction(async (tx) => {
-    const snap = await tx.get(ref);
-    if (!snap.exists) return false;
-    const need = snap.data() as Need;
-    if (need.assignedTo !== volunteerPublicId) return false;
-    tx.update(ref, {
-      status: 'open',
-      assignedTo: null,
-      updatedAt: Timestamp.now(),
-    });
-    return true;
-  });
+  const need = store.needs.get(needId);
+  if (!need) return false;
+  if (need.assignedTo !== volunteerPublicId) return false;
+  need.status = 'open';
+  need.assignedTo = null;
+  need.updatedAt = nowIso();
+  return true;
 }
 
-/* ----- Volunteers ----- */
+/* ------------- Volunteers ------------- */
 
 export interface EnsureVolunteerInput {
   raw: RawReporter;
@@ -204,21 +181,15 @@ export interface EnsureVolunteerInput {
 export async function ensureVolunteer(
   input: EnsureVolunteerInput,
 ): Promise<{ id: string; publicId: string }> {
-  const db = getDb();
-  const docId = normalizePhoneId(input.raw.phone);
-  const ref = db.collection('volunteers').doc(docId);
-  const snap = await ref.get();
-  if (snap.exists) {
-    const data = snap.data() as Volunteer;
-    await ref.update({
-      name: input.name || data.name,
-      updatedAt: Timestamp.now(),
-    });
-    return { id: docId, publicId: data.publicId };
+  const id = normalizePhoneId(input.raw.phone);
+  const existing = store.volunteers.get(id);
+  if (existing) {
+    existing.name = input.name || existing.name;
+    return { id, publicId: existing.publicId };
   }
   const publicId = randomUUID();
-  await ref.set({
-    id: docId,
+  store.volunteers.set(id, {
+    id,
     phone: input.raw.phone,
     name: input.name,
     skills: input.skills ?? [],
@@ -226,9 +197,9 @@ export async function ensureVolunteer(
     serviceRadiusKm: input.serviceRadiusKm ?? 10,
     active: input.active ?? false,
     publicId,
-    createdAt: Timestamp.now(),
+    createdAt: nowIso(),
   });
-  return { id: docId, publicId };
+  return { id, publicId };
 }
 
 export async function updateVolunteer(
@@ -240,38 +211,30 @@ export async function updateVolunteer(
     >
   >,
 ): Promise<void> {
-  const db = getDb();
-  const docId = normalizePhoneId(phone);
-  await db
-    .collection('volunteers')
-    .doc(docId)
-    .update({ ...patch, updatedAt: Timestamp.now() });
+  const id = normalizePhoneId(phone);
+  const v = store.volunteers.get(id);
+  if (!v) return;
+  Object.assign(v, patch);
 }
 
 export async function getVolunteerByPhone(
   phone: string,
 ): Promise<Volunteer | null> {
-  const db = getDb();
-  const docId = normalizePhoneId(phone);
-  const snap = await db.collection('volunteers').doc(docId).get();
-  if (!snap.exists) return null;
-  return snap.data() as Volunteer;
+  return store.volunteers.get(normalizePhoneId(phone)) ?? null;
+}
+
+export async function listActiveVolunteers(): Promise<Volunteer[]> {
+  return [...store.volunteers.values()].filter((v) => v.active);
 }
 
 export async function findNearestVolunteer(
   need: Need,
 ): Promise<Volunteer | null> {
   if (!need.location) return null;
-  const db = getDb();
-  const snap = await db
-    .collection('volunteers')
-    .where('active', '==', true)
-    .where('skills', 'array-contains', need.needType)
-    .get();
-
   let best: { volunteer: Volunteer; dist: number } | null = null;
-  for (const doc of snap.docs) {
-    const v = doc.data() as Volunteer;
+  for (const v of store.volunteers.values()) {
+    if (!v.active) continue;
+    if (!v.skills.includes(need.needType)) continue;
     if (!v.serviceArea) continue;
     const dist = haversineKm(need.location, v.serviceArea);
     if (dist > v.serviceRadiusKm) continue;
@@ -280,27 +243,30 @@ export async function findNearestVolunteer(
   return best?.volunteer ?? null;
 }
 
-/* ----- Resolutions ----- */
+/* ------------- Resolutions ------------- */
 
 export async function findLatestActiveNeedForVolunteer(
   volunteerPublicId: string,
 ): Promise<Need | null> {
-  const db = getDb();
-  const snap = await db
-    .collection('needs')
-    .where('assignedTo', '==', volunteerPublicId)
-    .where('status', 'in', ['in_progress', 'assigned'])
-    .orderBy('updatedAt', 'desc')
-    .limit(1)
-    .get();
-  if (snap.empty) return null;
-  return snap.docs[0].data() as Need;
+  return (
+    [...store.needs.values()]
+      .filter(
+        (n) =>
+          n.assignedTo === volunteerPublicId &&
+          (n.status === 'in_progress' || n.status === 'assigned'),
+      )
+      .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))[0] ?? null
+  );
 }
 
 export interface SaveResolutionInput {
   needId: string;
   volunteerPublicId: string;
+  /** Backend-proxied URL to expose to clients (e.g. /media/<id>). */
   photoUrl: string;
+  /** Original Twilio media URL — kept private so the proxy can refetch with auth. */
+  twilioMediaUrl?: string | null;
+  twilioMediaContentType?: string | null;
   verification: {
     verified: boolean;
     confidence: number;
@@ -312,53 +278,55 @@ export interface SaveResolutionInput {
 export async function saveResolution(
   input: SaveResolutionInput,
 ): Promise<string> {
-  const db = getDb();
-  const now = Timestamp.now();
-  const ref = db.collection('resolutions').doc();
+  const id = randomUUID();
+  const now = nowIso();
+  const resolution: Resolution = {
+    id,
+    needId: input.needId,
+    volunteerPublicId: input.volunteerPublicId,
+    photoUrl: input.photoUrl,
+    twilioMediaUrl: input.twilioMediaUrl ?? null,
+    twilioMediaContentType: input.twilioMediaContentType ?? null,
+    verified: input.verification.verified,
+    verificationConfidence: input.verification.confidence,
+    verificationReason: input.verification.reason,
+    observations: input.verification.observations ?? null,
+    resolvedAt: now,
+  };
+  store.resolutions.set(id, resolution);
 
-  await db.runTransaction(async (tx) => {
-    const needRef = db.collection('needs').doc(input.needId);
-    const needSnap = await tx.get(needRef);
-    if (!needSnap.exists) {
-      throw new Error(`Need ${input.needId} not found`);
-    }
-
-    tx.set(ref, {
-      id: ref.id,
-      needId: input.needId,
-      volunteerPublicId: input.volunteerPublicId,
-      photoUrl: input.photoUrl,
-      verified: input.verification.verified,
-      verificationConfidence: input.verification.confidence,
-      verificationReason: input.verification.reason,
-      observations: input.verification.observations ?? null,
-      resolvedAt: now,
-    });
-
+  const need = store.needs.get(input.needId);
+  if (need) {
     if (input.verification.verified) {
-      tx.update(needRef, {
-        status: 'verified',
-        resolvedAt: now,
-        verifiedAt: now,
-        verifiedPhotoUrl: input.photoUrl,
-        latestPhotoUrl: input.photoUrl,
-        updatedAt: now,
-      });
+      need.status = 'verified';
+      need.verifiedPhotoUrl = input.photoUrl;
+      need.verifiedAt = now;
+      need.resolvedAt = now;
+      need.latestPhotoUrl = input.photoUrl;
+      need.updatedAt = now;
     } else {
-      tx.update(needRef, {
-        latestPhotoUrl: input.photoUrl,
-        updatedAt: now,
-      });
+      need.latestPhotoUrl = input.photoUrl;
+      need.updatedAt = now;
     }
-  });
+  }
 
   logger.info(
     {
-      resolutionId: ref.id,
+      resolutionId: id,
       needId: input.needId,
       verified: input.verification.verified,
     },
     'resolution saved',
   );
-  return ref.id;
+  return id;
+}
+
+export async function getResolution(id: string): Promise<Resolution | null> {
+  return store.resolutions.get(id) ?? null;
+}
+
+export async function listResolutions(): Promise<Resolution[]> {
+  return [...store.resolutions.values()].sort((a, b) =>
+    b.resolvedAt.localeCompare(a.resolvedAt),
+  );
 }

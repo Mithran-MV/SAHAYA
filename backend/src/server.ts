@@ -7,6 +7,8 @@ import { config } from './lib/config';
 import { healthRouter } from './routes/health';
 import { whatsappRouter } from './routes/whatsapp';
 import { testRouter } from './routes/test';
+import { apiRouter } from './routes/api';
+import { mediaRouter } from './routes/media';
 
 export function createServer(): express.Express {
   const app = express();
@@ -14,13 +16,20 @@ export function createServer(): express.Express {
   app.disable('x-powered-by');
   app.set('trust proxy', true);
 
-  app.use(helmet());
+  app.use(
+    helmet({
+      // Allow cross-origin image embedding for the dashboard heatmap.
+      crossOriginResourcePolicy: { policy: 'cross-origin' },
+    }),
+  );
   app.use(cors());
   app.use(express.json({ limit: '1mb' }));
   app.use(express.urlencoded({ extended: false, limit: '1mb' }));
   app.use(pinoHttp({ logger }));
 
   app.use('/health', healthRouter);
+  app.use('/api', apiRouter);
+  app.use('/media', mediaRouter);
   app.use('/whatsapp', whatsappRouter);
   if (config.nodeEnv !== 'production') {
     app.use('/test', testRouter);

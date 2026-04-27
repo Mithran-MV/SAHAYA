@@ -28,7 +28,7 @@ const STATUS_TONE: Record<Need['status'], string> = {
 
 export default function NeedCard({ need }: { need: Need }) {
   const urgencyClass = URGENCY_BG[need.urgency] ?? URGENCY_BG.low;
-  const ago = formatAgo(need.createdAt?.seconds ?? 0);
+  const ago = formatAgo(need.createdAt);
   const statusTone = STATUS_TONE[need.status] ?? '';
 
   return (
@@ -92,9 +92,11 @@ export default function NeedCard({ need }: { need: Need }) {
   );
 }
 
-function formatAgo(epochSec: number): string {
-  if (!epochSec) return '—';
-  const diffMs = Date.now() - epochSec * 1000;
+function formatAgo(iso: string): string {
+  if (!iso) return '—';
+  const t = Date.parse(iso);
+  if (!Number.isFinite(t)) return '—';
+  const diffMs = Date.now() - t;
   const m = Math.floor(diffMs / 60_000);
   if (m < 1) return 'now';
   if (m < 60) return `${m}m ago`;

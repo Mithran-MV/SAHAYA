@@ -54,7 +54,7 @@ function Footer() {
         SAHAYA · Solution Challenge 2026 · GDG on Campus — CIT
       </span>
       <span className="sm:ml-auto">
-        Built with Gemini, Firestore, Cloud Run, Firebase, and Google Maps Platform.{' '}
+        Built with Gemini, Cloud Run, and Google Maps Platform.{' '}
         <a
           href="https://github.com/Mithran-MV/SAHAYA"
           target="_blank"

@@ -1,4 +1,3 @@
-import { isFirebaseConfigured } from '../lib/firebase';
 import { isMapsConfigured } from '../lib/maps';
 import { logger } from '../lib/logger';
 import { ensureAshaWorker, persistNeedsFromExtraction } from '../domain/repo';
@@ -12,21 +11,13 @@ import type {
 export interface ProcessOutcome {
   savedIds: string[];
   geocodedCount: number;
-  persisted: boolean;
   geocoded: Array<GeoLocation | null>;
 }
 
 /**
- * Orchestrate everything that should happen after Gemini returns an extraction:
- *
- *   1. Geocode each need's locationHint in parallel (best-effort).
- *   2. Ensure the ASHA worker record exists.
- *   3. Persist needs to Firestore in one batch.
- *
- * Each step gracefully degrades:
- *   - no Maps key  -> location stays null, persist still happens
- *   - no Firestore -> nothing is persisted but we still return the geocoded array
- *                     so the caller can compose a useful preview message
+ * Geocode each need's locationHint (best-effort), ensure the ASHA worker
+ * record exists, persist the needs to the in-memory store, and return the
+ * new IDs so the caller can dispatch volunteers downstream.
  */
 export async function processExtraction(
   extraction: ExtractionResult,
@@ -38,11 +29,6 @@ export async function processExtraction(
 
   const geocodedCount = geocoded.filter((g) => g !== null).length;
 
-  if (!isFirebaseConfigured()) {
-    logger.warn('Firestore not configured; skipping persist (preview mode)');
-    return { savedIds: [], geocodedCount, persisted: false, geocoded };
-  }
-
   const reporter = await ensureAshaWorker(raw);
   const savedIds = await persistNeedsFromExtraction({
     reporter,
@@ -50,5 +36,9 @@ export async function processExtraction(
     geocoded,
   });
 
-  return { savedIds, geocodedCount, persisted: true, geocoded };
+  logger.info(
+    { savedIds: savedIds.length, geocodedCount },
+    'extraction processed',
+  );
+  return { savedIds, geocodedCount, geocoded };
 }

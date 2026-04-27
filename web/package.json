@@ -1,6 +1,6 @@
 {
   "name": "sahaya-web",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "description": "SAHAYA public transparency dashboard.",
   "scripts": {
@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "@vis.gl/react-google-maps": "^1.5.0",
-    "firebase": "^11.1.0",
     "lucide-react": "^0.469.0",
     "next": "^15.1.4",
     "react": "^19.0.0",
