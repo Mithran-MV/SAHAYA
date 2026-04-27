@@ -1,0 +1,39 @@
+{
+  "name": "sahaya-backend",
+  "version": "0.1.0",
+  "private": true,
+  "description": "SAHAYA backend — Twilio WhatsApp webhook, Gemini multimodal pipeline, Firestore.",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "typecheck": "tsc --noEmit",
+    "smoke": "curl -fsS http://localhost:8080/health | jq ."
+  },
+  "dependencies": {
+    "@google/genai": "^0.7.0",
+    "@googlemaps/google-maps-services-js": "^3.4.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "firebase-admin": "^13.0.2",
+    "helmet": "^8.0.0",
+    "pino": "^9.5.0",
+    "pino-http": "^10.3.0",
+    "twilio": "^5.4.0",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.10.5",
+    "pino-pretty": "^13.0.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}
