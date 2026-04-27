@@ -1,0 +1,1376 @@
+{
+  "_note": "Static fallback dataset for GitHub Pages / no-backend demos. Generated from the backend at Mon Apr 27 18:30:59 IST 2026.",
+  "needs": [
+    {
+      "id": "1e96bc18-0ba8-4562-a081-21d9750f1443",
+      "reporter": {
+        "publicId": "cc2f57fd-9c5b-48e7-bc3c-01820f8c67a7",
+        "displayName": "Lakshmi"
+      },
+      "rawText": "Ration kadai 3 naal-a moodirukku, families wait panindhukirudhu.",
+      "rawQuote": "ration kadai 3 naal-a moodirukku",
+      "needType": "food",
+      "urgency": "medium",
+      "locationHint": "Pollachi PDS shop",
+      "location": {
+        "lat": 10.661976346600616,
+        "lng": 77.01524932525795,
+        "formattedAddress": "Pollachi PDS shop, Pollachi, Tamil Nadu"
+      },
+      "beneficiaryCount": null,
+      "language": "ta",
+      "status": "open",
+      "assignedTo": null,
+      "reasoning": "Closed PDS shop for 3 days affects food security for many families.",
+      "verifiedPhotoUrl": null,
+      "latestPhotoUrl": null,
+      "createdAt": "2026-04-27T10:00:47.262Z",
+      "updatedAt": "2026-04-27T10:00:47.262Z",
+      "resolvedAt": null,
+      "verifiedAt": null
+    },
+    {
+      "id": "86c75be7-a54a-4a39-a62e-3dee54637cec",
+      "reporter": {
+        "publicId": "4634e3f0-b323-47e3-a336-8e396f9547df",
+        "displayName": "Priya"
+      },
+      "rawText": "Public water tank cleaning panala 6 maasam-a, paasi koodirukku.",
+      "rawQuote": "water tank cleaning panala 6 maasam-a",
+      "needType": "water",
+      "urgency": "medium",
+      "locationHint": "Sulur water tank",
+      "location": {
+        "lat": 10.98849090652095,
+        "lng": 77.12885970401878,
+        "formattedAddress": "Sulur water tank, Sulur, Tamil Nadu"
+      },
+      "beneficiaryCount": null,
+      "language": "ta",
+      "status": "open",
+      "assignedTo": null,
+      "reasoning": "Algae buildup in unmaintained tank; regular cleaning needed.",
+      "verifiedPhotoUrl": null,
+      "latestPhotoUrl": null,
+      "createdAt": "2026-04-27T09:00:47.262Z",
+      "updatedAt": "2026-04-27T09:00:47.262Z",
+      "resolvedAt": null,
+      "verifiedAt": null
+    },
+    {
+      "id": "4bd67922-bffb-48e8-8e05-e1a249e6a817",
+      "reporter": {
+        "publicId": "006ac01b-e6d5-46d4-8efa-f3f41aac73ed",
+        "displayName": "Saraswati"
+      },
+      "rawText": "Mental health counselling needed for women SHG members, 5 reported anxiety.",
+      "rawQuote": "mental health counselling needed",
+      "needType": "health",
+      "urgency": "medium",
+      "locationHint": "Mettupalayam SHG",
+      "location": {
+        "lat": 11.302729353148333,
+        "lng": 76.94862698185598,
+        "formattedAddress": "Mettupalayam SHG, Mettupalayam, Tamil Nadu"
+      },
+      "beneficiaryCount": 5,
+      "language": "en",
+      "status": "assigned",
+      "assignedTo": "d8ce1eb1-3d50-4365-8b54-14f8d459cf2b",
+      "reasoning": "Mental health support for women SHG; counsellor visit.",
+      "verifiedPhotoUrl": null,
+      "latestPhotoUrl": null,
+      "createdAt": "2026-04-27T09:00:47.262Z",
+      "updatedAt": "2026-04-27T09:00:47.262Z",
+      "resolvedAt": null,
+      "verifiedAt": null
+    },
+    {
+      "id": "9c386675-3406-4e43-bbe3-7d2253f74f02",
+      "reporter": {
+        "publicId": "cc2f57fd-9c5b-48e7-bc3c-01820f8c67a7",
+        "displayName": "Lakshmi"
+      },
+      "rawText": "Old roof collapsed at Karuppu's house in storm last night, family of 5 sleeping outside.",
+      "rawQuote": "Old roof collapsed at Karuppu's house in storm last night",
+      "needType": "shelter",
+      "urgency": "critical",
+      "locationHint": "Pollachi outskirts",
+      "location": {
+        "lat": 10.661535542723083,
+        "lng": 77.01161502747993,
+        "formattedAddress": "Pollachi outskirts, Pollachi, Tamil Nadu"
+      },
+      "beneficiaryCount": 5,
+      "language": "en",
+      "status": "in_progress",
+      "assignedTo": "dc8fbcae-e1ec-4038-abfe-a99b6a3a1afc",
+      "reasoning": "Family displaced by storm needs immediate temporary shelter + tarpaulin.",
+      "verifiedPhotoUrl": null,
+      "latestPhotoUrl": null,
+      "createdAt": "2026-04-27T08:00:47.262Z",
+      "updatedAt": "2026-04-27T08:00:47.262Z",
+      "resolvedAt": null,
+      "verifiedAt": null
+    },
+    {
+      "id": "f8181feb-b07c-43ef-9ff9-47052475e46c",
+      "reporter": {
+        "publicId": "865ada83-189c-4e84-b836-8712e56c7d28",
+        "displayName": "Kavitha"
+      },
+      "rawText": "Compound wall of Karamadai panchayat school is broken in two places, stray dogs entering.",
+      "rawQuote": "compound wall of school is broken",
+      "needType": "safety",
+      "urgency": "medium",
+      "locationHint": "Karamadai panchayat school",
+      "location": {
+        "lat": 11.23764998241973,
+        "lng": 76.96701046507857,
+        "formattedAddress": "Karamadai panchayat school, Karamadai, Tamil Nadu"
+      },
+      "beneficiaryCount": null,
+      "language": "en",
+      "status": "open",
+      "assignedTo": null,
+      "reasoning": "Broken school wall + stray dogs = child safety risk.",
+      "verifiedPhotoUrl": null,
+      "latestPhotoUrl": null,
+      "createdAt": "2026-04-27T08:00:47.262Z",
+      "updatedAt": "2026-04-27T08:00:47.262Z",
+      "resolvedAt": null,
+      "verifiedAt": null
+    },
+    {
+      "id": "49d8e8af-20dd-47a3-afbc-2ae7bcd8f6f4",
+      "reporter": {
+        "publicId": "4634e3f0-b323-47e3-a336-8e396f9547df",
+        "displayName": "Priya"
+      },
+      "rawText": "Sulur PHC-la pregnant women-ku regular checkup illa 2 weeks-a.",
+      "rawQuote": "pregnant women-ku checkup illa 2 weeks-a",
+      "needType": "health",
+      "urgency": "medium",
+      "locationHint": "Sulur PHC",
+      "location": {
+        "lat": 10.995272358247965,
+        "lng": 77.12107596992199,
+        "formattedAddress": "Sulur PHC, Sulur, Tamil Nadu"
+      },
+      "beneficiaryCount": 6,
+      "language": "ta",
+      "status": "assigned",
+      "assignedTo": "2aa6bc10-a9b7-41af-8235-3ac3f3153dbf",
+      "reasoning": "Antenatal care lapse for 6 women; gynae visit overdue.",
+      "verifiedPhotoUrl": null,
+      "latestPhotoUrl": null,
+      "createdAt": "2026-04-27T07:00:47.262Z",
+      "updatedAt": "2026-04-27T07:00:47.262Z",
+      "resolvedAt": null,
+      "verifiedAt": null
+    },
+    {
+      "id": "3c847e2f-e0db-444f-9ac4-b371bc1446e8",
+      "reporter": {
+        "publicId": "006ac01b-e6d5-46d4-8efa-f3f41aac73ed",
+        "displayName": "Saraswati"
+      },
+      "rawText": "Public toilet door odanjirukku, ladies-ku problem.",
+      "rawQuote": "toilet door odanjirukku",
+      "needType": "sanitation",
+      "urgency": "low",
+      "locationHint": "Mettupalayam bus stand",
+      "location": {
+        "lat": 11.29813985538978,
+        "lng": 76.93561177728785,
+        "formattedAddress": "Mettupalayam bus stand, Mettupalayam, Tamil Nadu"
+      },
+      "beneficiaryCount": null,
+      "language": "ta",
+      "status": "assigned",
+      "assignedTo": "e001b2bb-ec23-463a-9b7b-c65fe53c1081",
+      "reasoning": "Broken toilet door reduces dignity + safety.",
+      "verifiedPhotoUrl": null,
+      "latestPhotoUrl": null,
+      "createdAt": "2026-04-27T06:00:47.262Z",
+      "updatedAt": "2026-04-27T06:00:47.262Z",
+      "resolvedAt": null,
+      "verifiedAt": null
+    },
+    {
+      "id": "b4687ef3-56d6-42ea-976a-f9de098aae21",
+      "reporter": {
+        "publicId": "4634e3f0-b323-47e3-a336-8e396f9547df",
+        "displayName": "Priya"
+      },
+      "rawText": "Sulur main road ki naali bandh ho gayi hai, paani street pe aa raha hai.",
+      "rawQuote": "naali bandh ho gayi hai",
+      "needType": "sanitation",
+      "urgency": "high",
+      "locationHint": "Sulur main road",
+      "location": {
+        "lat": 10.996305367224243,
+        "lng": 77.11344310007476,
+        "formattedAddress": "Sulur main road, Sulur, Tamil Nadu"
+      },
+      "beneficiaryCount": null,
+      "language": "hi",
+      "status": "in_progress",
+      "assignedTo": "6e54cd94-b889-49bb-8313-b22a0901b484",
+      "reasoning": "Blocked drain on main road; mosquito breeding + traffic risk.",
+      "verifiedPhotoUrl": null,
+      "latestPhotoUrl": null,
+      "createdAt": "2026-04-27T05:00:47.262Z",
+      "updatedAt": "2026-04-27T05:00:47.262Z",
+      "resolvedAt": null,
+      "verifiedAt": null
+    },
+    {
+      "id": "a05fc11c-75d2-4e97-8cf2-bccb292e7002",
+      "reporter": {
+        "publicId": "865ada83-189c-4e84-b836-8712e56c7d28",
+        "displayName": "Kavitha"
+      },
+      "rawText": "Pregnant woman ko O+ blood urgent chahiye, government hospital mein.",
+      "rawQuote": "pregnant woman blood needed",
+      "needType": "health",
+      "urgency": "critical",
+      "locationHint": "Karamadai government hospital",
+      "location": {
+        "lat": 11.233539974074708,
+        "lng": 76.9538345248068,
+        "formattedAddress": "Karamadai government hospital, Karamadai, Tamil Nadu"
+      },
+      "beneficiaryCount": 1,
+      "language": "hi",
+      "status": "verified",
+      "assignedTo": "a0e26f42-6601-4ba1-a4ba-26710a683660",
+      "reasoning": "Obstetric emergency; blood donor coordination.",
+      "verifiedPhotoUrl": "https://images.unsplash.com/photo-1631815589968-fdb09a223b1e?w=600",
+      "latestPhotoUrl": "https://images.unsplash.com/photo-1631815589968-fdb09a223b1e?w=600",
+      "createdAt": "2026-04-27T05:00:47.262Z",
+      "updatedAt": "2026-04-27T07:00:47.262Z",
+      "resolvedAt": "2026-04-27T07:00:47.262Z",
+      "verifiedAt": "2026-04-27T07:00:47.262Z"
+    },
+    {
+      "id": "ecf4d84d-a879-4c15-87e2-1aff46209680",
+      "reporter": {
+        "publicId": "22172583-5192-4ffc-96bb-1e5e0cd6d6af",
+        "displayName": "Meena"
+      },
+      "rawText": "Annur-Mettupalayam road has 4 large potholes near the school crossing.",
+      "rawQuote": "road has 4 large potholes",
+      "needType": "infrastructure",
+      "urgency": "medium",
+      "locationHint": "Annur school crossing",
+      "location": {
+        "lat": 11.241762555613924,
+        "lng": 77.09888097169356,
+        "formattedAddress": "Annur school crossing, Annur, Tamil Nadu"
+      },
+      "beneficiaryCount": null,
+      "language": "en",
+      "status": "in_progress",
+      "assignedTo": "e001b2bb-ec23-463a-9b7b-c65fe53c1081",
+      "reasoning": "Potholes near school crossing risk accidents.",
+      "verifiedPhotoUrl": null,
+      "latestPhotoUrl": null,
+      "createdAt": "2026-04-27T04:00:47.262Z",
+      "updatedAt": "2026-04-27T04:00:47.262Z",
+      "resolvedAt": null,
+      "verifiedAt": null
+    },
+    {
+      "id": "074ab932-1914-4c93-bb0d-4f386c8d2a29",
+      "reporter": {
+        "publicId": "006ac01b-e6d5-46d4-8efa-f3f41aac73ed",
+        "displayName": "Saraswati"
+      },
+      "rawText": "High school maths teacher transferred 2 weeks ago, no replacement yet.",
+      "rawQuote": "high school maths teacher transferred",
+      "needType": "education",
+      "urgency": "medium",
+      "locationHint": "Mettupalayam high school",
+      "location": {
+        "lat": 11.29131139248303,
+        "lng": 76.93171406855083,
+        "formattedAddress": "Mettupalayam high school, Mettupalayam, Tamil Nadu"
+      },
+      "beneficiaryCount": null,
+      "language": "en",
+      "status": "open",
+      "assignedTo": null,
+      "reasoning": "Teacher gap affecting Class 10 students before exams.",
+      "verifiedPhotoUrl": null,
+      "latestPhotoUrl": null,
+      "createdAt": "2026-04-27T02:00:47.262Z",
+      "updatedAt": "2026-04-27T02:00:47.262Z",
+      "resolvedAt": null,
+      "verifiedAt": null
+    },
+    {
+      "id": "2e6c27de-176e-4e8c-b10f-af9ba28bd846",
+      "reporter": {
+        "publicId": "cc2f57fd-9c5b-48e7-bc3c-01820f8c67a7",
+        "displayName": "Lakshmi"
+      },
+      "rawText": "Anganwadi school-la books varala new year-ku, kuzhandhai motivation kammi.",
+      "rawQuote": "school-la books varala",
+      "needType": "education",
+      "urgency": "low",
+      "locationHint": "Pollachi anganwadi 2",
+      "location": {
+        "lat": 10.65017768778819,
+        "lng": 77.00697193858693,
+        "formattedAddress": "Pollachi anganwadi 2, Pollachi, Tamil Nadu"
+      },
+      "beneficiaryCount": null,
+      "language": "ta",
+      "status": "open",
+      "assignedTo": null,
+      "reasoning": "Missing school supplies; non-urgent but affects engagement.",
+      "verifiedPhotoUrl": null,
+      "latestPhotoUrl": null,
+      "createdAt": "2026-04-27T01:00:47.262Z",
+      "updatedAt": "2026-04-27T01:00:47.262Z",
+      "resolvedAt": null,
+      "verifiedAt": null
+    },
+    {
+      "id": "5d61bc5e-c448-46f5-aa6d-8cdc5e135e79",
+      "reporter": {
+        "publicId": "22172583-5192-4ffc-96bb-1e5e0cd6d6af",
+        "displayName": "Meena"
+      },
+      "rawText": "Tribal family of 4 living in plastic tent for 1 month, monsoon coming.",
+      "rawQuote": "tribal family living in tent",
+      "needType": "shelter",
+      "urgency": "high",
+      "locationHint": "Annur outskirts",
+      "location": {
+        "lat": 11.238062015267912,
+        "lng": 77.11729163017905,
+        "formattedAddress": "Annur outskirts, Annur, Tamil Nadu"
+      },
+      "beneficiaryCount": 4,
+      "language": "en",
+      "status": "in_progress",
+      "assignedTo": "75ae633b-f4f1-4da0-bfaf-a0a2f990f7f8",
+      "reasoning": "Vulnerable family before monsoon needs proper shelter.",
+      "verifiedPhotoUrl": null,
+      "latestPhotoUrl": null,
+      "createdAt": "2026-04-27T01:00:47.262Z",
+      "updatedAt": "2026-04-27T01:00:47.262Z",
+      "resolvedAt": null,
+      "verifiedAt": null
+    },
+    {
+      "id": "0afac6a8-1411-4cf4-ba1a-2a1c47eb1b6a",
+      "reporter": {
+        "publicId": "865ada83-189c-4e84-b836-8712e56c7d28",
+        "displayName": "Kavitha"
+      },
+      "rawText": "Karamadai-la special needs kuzhandhai-kku school illa, oru parent ennai keturukku.",
+      "rawQuote": "special needs kuzhandhai-kku school illa",
+      "needType": "education",
+      "urgency": "high",
+      "locationHint": "Karamadai",
+      "location": {
+        "lat": 11.238813679253317,
+        "lng": 76.9668012578945,
+        "formattedAddress": "Karamadai, Karamadai, Tamil Nadu"
+      },
+      "beneficiaryCount": 1,
+      "language": "ta",
+      "status": "in_progress",
+      "assignedTo": "1d58a849-1358-4e43-8974-73df032481a2",
+      "reasoning": "Special education access gap for differently-abled child.",
+      "verifiedPhotoUrl": null,
+      "latestPhotoUrl": null,
+      "createdAt": "2026-04-27T00:00:47.262Z",
+      "updatedAt": "2026-04-27T00:00:47.262Z",
+      "resolvedAt": null,
+      "verifiedAt": null
+    },
+    {
+      "id": "5dc8fb12-d5f4-4560-84ea-98806b492293",
+      "reporter": {
+        "publicId": "4634e3f0-b323-47e3-a336-8e396f9547df",
+        "displayName": "Priya"
+      },
+      "rawText": "Yashoda devi ko dawai chahiye, blood pressure bahut high hai.",
+      "rawQuote": "Yashoda devi ko dawai chahiye",
+      "needType": "health",
+      "urgency": "high",
+      "locationHint": "Sulur ward 7",
+      "location": {
+        "lat": 10.999328792813948,
+        "lng": 77.12971350584507,
+        "formattedAddress": "Sulur ward 7, Sulur, Tamil Nadu"
+      },
+      "beneficiaryCount": 1,
+      "language": "hi",
+      "status": "verified",
+      "assignedTo": "2aa6bc10-a9b7-41af-8235-3ac3f3153dbf",
+      "reasoning": "Hypertensive elderly without medication \u2014 high health risk.",
+      "verifiedPhotoUrl": "https://images.unsplash.com/photo-1583912267550-d44c9c46d3a4?w=600",
+      "latestPhotoUrl": "https://images.unsplash.com/photo-1583912267550-d44c9c46d3a4?w=600",
+      "createdAt": "2026-04-26T23:00:47.262Z",
+      "updatedAt": "2026-04-27T02:00:47.262Z",
+      "resolvedAt": "2026-04-27T02:00:47.262Z",
+      "verifiedAt": "2026-04-27T02:00:47.262Z"
+    },
+    {
+      "id": "b78dd145-ab96-435a-b02f-cd77e798d32b",
+      "reporter": {
+        "publicId": "865ada83-189c-4e84-b836-8712e56c7d28",
+        "displayName": "Kavitha"
+      },
+      "rawText": "Dead animal carcass on Karamadai junction road for 3 days, smell + flies.",
+      "rawQuote": "dead animal carcass on road",
+      "needType": "sanitation",
+      "urgency": "high",
+      "locationHint": "Karamadai junction",
+      "location": {
+        "lat": 11.24342140393821,
+        "lng": 76.9654962080789,
+        "formattedAddress": "Karamadai junction, Karamadai, Tamil Nadu"
+      },
+      "beneficiaryCount": null,
+      "language": "en",
+      "status": "verified",
+      "assignedTo": "a0e26f42-6601-4ba1-a4ba-26710a683660",
+      "reasoning": "Public health hazard from decomposing animal; immediate removal.",
+      "verifiedPhotoUrl": "https://images.unsplash.com/photo-1581578017093-cd30fce4eeb7?w=600",
+      "latestPhotoUrl": "https://images.unsplash.com/photo-1581578017093-cd30fce4eeb7?w=600",
+      "createdAt": "2026-04-26T23:00:47.262Z",
+      "updatedAt": "2026-04-27T03:00:47.262Z",
+      "resolvedAt": "2026-04-27T03:00:47.262Z",
+      "verifiedAt": "2026-04-27T03:00:47.262Z"
+    },
+    {
+      "id": "233add12-504d-44c2-80a6-37a335fca0bf",
+      "reporter": {
+        "publicId": "22172583-5192-4ffc-96bb-1e5e0cd6d6af",
+        "displayName": "Meena"
+      },
+      "rawText": "Annur ward 2-la oru ammaa-ku snake bite, hospital-ku porandhirukku, family panathukku poratam.",
+      "rawQuote": "oru ammaa-ku snake bite",
+      "needType": "health",
+      "urgency": "critical",
+      "locationHint": "Annur ward 2",
+      "location": {
+        "lat": 11.230054061465731,
+        "lng": 77.11036489620354,
+        "formattedAddress": "Annur ward 2, Annur, Tamil Nadu"
+      },
+      "beneficiaryCount": 1,
+      "language": "ta",
+      "status": "verified",
+      "assignedTo": "d8ce1eb1-3d50-4365-8b54-14f8d459cf2b",
+      "reasoning": "Snake bite emergency; family needs medical aid + financial support.",
+      "verifiedPhotoUrl": "https://images.unsplash.com/photo-1583912267550-d44c9c46d3a4?w=600",
+      "latestPhotoUrl": "https://images.unsplash.com/photo-1583912267550-d44c9c46d3a4?w=600",
+      "createdAt": "2026-04-26T21:00:47.262Z",
+      "updatedAt": "2026-04-27T01:00:47.262Z",
+      "resolvedAt": "2026-04-27T01:00:47.262Z",
+      "verifiedAt": "2026-04-27T01:00:47.262Z"
+    },
+    {
+      "id": "b87dc9ae-de29-4756-94ab-11f66a5921f3",
+      "reporter": {
+        "publicId": "cc2f57fd-9c5b-48e7-bc3c-01820f8c67a7",
+        "displayName": "Lakshmi"
+      },
+      "rawText": "Amma women SHG kitchen garden start panrom, seeds chahiye.",
+      "rawQuote": "amma kitchen garden start panrom",
+      "needType": "food",
+      "urgency": "low",
+      "locationHint": "Pollachi SHG centre",
+      "location": {
+        "lat": 10.655594065024214,
+        "lng": 77.01602784583689,
+        "formattedAddress": "Pollachi SHG centre, Pollachi, Tamil Nadu"
+      },
+      "beneficiaryCount": null,
+      "language": "ta",
+      "status": "open",
+      "assignedTo": null,
+      "reasoning": "SHG nutrition initiative; non-urgent seeds support.",
+      "verifiedPhotoUrl": null,
+      "latestPhotoUrl": null,
+      "createdAt": "2026-04-26T20:00:47.262Z",
+      "updatedAt": "2026-04-26T20:00:47.262Z",
+      "resolvedAt": null,
+      "verifiedAt": null
+    },
+    {
+      "id": "3bfa6784-58b7-44f0-8213-c5edc9eb5427",
+      "reporter": {
+        "publicId": "865ada83-189c-4e84-b836-8712e56c7d28",
+        "displayName": "Kavitha"
+      },
+      "rawText": "Oru 3 vayasu kuzhandhai-kku severe malnutrition, anganwadi sappadu seriya varala.",
+      "rawQuote": "oru kuzhandhai-kku malnutrition",
+      "needType": "health",
+      "urgency": "high",
+      "locationHint": "Karamadai anganwadi 1",
+      "location": {
+        "lat": 11.234906849624403,
+        "lng": 76.97082589305478,
+        "formattedAddress": "Karamadai anganwadi 1, Karamadai, Tamil Nadu"
+      },
+      "beneficiaryCount": 1,
+      "language": "ta",
+      "status": "verified",
+      "assignedTo": "a0e26f42-6601-4ba1-a4ba-26710a683660",
+      "reasoning": "Severe acute malnutrition in toddler; nutrition rehab + medical.",
+      "verifiedPhotoUrl": "https://images.unsplash.com/photo-1583912267550-d44c9c46d3a4?w=600",
+      "latestPhotoUrl": "https://images.unsplash.com/photo-1583912267550-d44c9c46d3a4?w=600",
+      "createdAt": "2026-04-26T20:00:47.262Z",
+      "updatedAt": "2026-04-27T01:00:47.262Z",
+      "resolvedAt": "2026-04-27T01:00:47.262Z",
+      "verifiedAt": "2026-04-27T01:00:47.262Z"
+    },
+    {
+      "id": "bd1f5975-3d96-458e-ae1b-444522a67ac4",
+      "reporter": {
+        "publicId": "cc2f57fd-9c5b-48e7-bc3c-01820f8c67a7",
+        "displayName": "Lakshmi"
+      },
+      "rawText": "Street-la garbage clean panala vechirukku oru week-a, mosquito problem.",
+      "rawQuote": "street-la garbage clean panala vechirukku oru week-a",
+      "needType": "sanitation",
+      "urgency": "medium",
+      "locationHint": "Pollachi market area",
+      "location": {
+        "lat": 10.659913831429684,
+        "lng": 77.00327982101226,
+        "formattedAddress": "Pollachi market area, Pollachi, Tamil Nadu"
+      },
+      "beneficiaryCount": null,
+      "language": "ta",
+      "status": "verified",
+      "assignedTo": "6e54cd94-b889-49bb-8313-b22a0901b484",
+      "reasoning": "Uncollected garbage breeds mosquitoes; sanitation crew needed.",
+      "verifiedPhotoUrl": "https://images.unsplash.com/photo-1626197031507-c17099753214?w=600",
+      "latestPhotoUrl": "https://images.unsplash.com/photo-1626197031507-c17099753214?w=600",
+      "createdAt": "2026-04-26T19:00:47.262Z",
+      "updatedAt": "2026-04-27T05:00:47.262Z",
+      "resolvedAt": "2026-04-27T05:00:47.262Z",
+      "verifiedAt": "2026-04-27T05:00:47.262Z"
+    },
+    {
+      "id": "8baf53f1-3aad-442d-99b7-963e013c7774",
+      "reporter": {
+        "publicId": "cc2f57fd-9c5b-48e7-bc3c-01820f8c67a7",
+        "displayName": "Lakshmi"
+      },
+      "rawText": "Oru kuzhandhai-kku diarrhea 3 days, ORS varala.",
+      "rawQuote": "oru kuzhandhai-kku diarrhea",
+      "needType": "health",
+      "urgency": "medium",
+      "locationHint": "Pollachi ward 5",
+      "location": {
+        "lat": 10.665402440938387,
+        "lng": 77.01849009783017,
+        "formattedAddress": "Pollachi ward 5, Pollachi, Tamil Nadu"
+      },
+      "beneficiaryCount": 1,
+      "language": "ta",
+      "status": "verified",
+      "assignedTo": "dc8fbcae-e1ec-4038-abfe-a99b6a3a1afc",
+      "reasoning": "Pediatric diarrhea + missing ORS; rehydration + supplies.",
+      "verifiedPhotoUrl": "https://images.unsplash.com/photo-1631815589968-fdb09a223b1e?w=600",
+      "latestPhotoUrl": "https://images.unsplash.com/photo-1631815589968-fdb09a223b1e?w=600",
+      "createdAt": "2026-04-26T18:00:47.262Z",
+      "updatedAt": "2026-04-26T21:00:47.262Z",
+      "resolvedAt": "2026-04-26T21:00:47.262Z",
+      "verifiedAt": "2026-04-26T21:00:47.262Z"
+    },
+    {
+      "id": "77a4af14-e949-4278-91a6-456eeafe4cd4",
+      "reporter": {
+        "publicId": "006ac01b-e6d5-46d4-8efa-f3f41aac73ed",
+        "displayName": "Saraswati"
+      },
+      "rawText": "Ek TB ke patient ki dawai khatam ho gayi, refill chahiye urgent.",
+      "rawQuote": "TB ke patient ki dawai khatam",
+      "needType": "health",
+      "urgency": "high",
+      "locationHint": "Mettupalayam ward 4",
+      "location": {
+        "lat": 11.290668473548314,
+        "lng": 76.93847510962784,
+        "formattedAddress": "Mettupalayam ward 4, Mettupalayam, Tamil Nadu"
+      },
+      "beneficiaryCount": 1,
+      "language": "hi",
+      "status": "verified",
+      "assignedTo": "d8ce1eb1-3d50-4365-8b54-14f8d459cf2b",
+      "reasoning": "Interrupted TB treatment risks resistance; medicine refill urgent.",
+      "verifiedPhotoUrl": "https://images.unsplash.com/photo-1631815589968-fdb09a223b1e?w=600",
+      "latestPhotoUrl": "https://images.unsplash.com/photo-1631815589968-fdb09a223b1e?w=600",
+      "createdAt": "2026-04-26T17:00:47.262Z",
+      "updatedAt": "2026-04-26T22:00:47.262Z",
+      "resolvedAt": "2026-04-26T22:00:47.262Z",
+      "verifiedAt": "2026-04-26T22:00:47.262Z"
+    },
+    {
+      "id": "54bf5e63-b4f9-4c59-b371-a9c7c3652c34",
+      "reporter": {
+        "publicId": "4634e3f0-b323-47e3-a336-8e396f9547df",
+        "displayName": "Priya"
+      },
+      "rawText": "Broken footpath near Sulur temple, elderly people slipping.",
+      "rawQuote": "broken footpath near temple",
+      "needType": "safety",
+      "urgency": "medium",
+      "locationHint": "Sulur temple road",
+      "location": {
+        "lat": 10.985439140161883,
+        "lng": 77.12257736546745,
+        "formattedAddress": "Sulur temple road, Sulur, Tamil Nadu"
+      },
+      "beneficiaryCount": null,
+      "language": "en",
+      "status": "open",
+      "assignedTo": null,
+      "reasoning": "Pedestrian safety risk for elderly; footpath repair.",
+      "verifiedPhotoUrl": null,
+      "latestPhotoUrl": null,
+      "createdAt": "2026-04-26T16:00:47.262Z",
+      "updatedAt": "2026-04-26T16:00:47.262Z",
+      "resolvedAt": null,
+      "verifiedAt": null
+    },
+    {
+      "id": "abff033c-c898-4490-8b0a-622597d04cdf",
+      "reporter": {
+        "publicId": "4634e3f0-b323-47e3-a336-8e396f9547df",
+        "displayName": "Priya"
+      },
+      "rawText": "Do migrant parivaar ko khana nahi mil raha, woh ration card nahi hai.",
+      "rawQuote": "do parivaar ko khana nahi mil raha",
+      "needType": "food",
+      "urgency": "high",
+      "locationHint": "Sulur labour quarters",
+      "location": {
+        "lat": 10.990980968397045,
+        "lng": 77.11265922279615,
+        "formattedAddress": "Sulur labour quarters, Sulur, Tamil Nadu"
+      },
+      "beneficiaryCount": 8,
+      "language": "hi",
+      "status": "verified",
+      "assignedTo": "6e54cd94-b889-49bb-8313-b22a0901b484",
+      "reasoning": "Migrant families without ration cards; food relief needed.",
+      "verifiedPhotoUrl": "https://images.unsplash.com/photo-1490818387583-1baba5e638af?w=600",
+      "latestPhotoUrl": "https://images.unsplash.com/photo-1490818387583-1baba5e638af?w=600",
+      "createdAt": "2026-04-26T15:00:47.262Z",
+      "updatedAt": "2026-04-26T22:00:47.262Z",
+      "resolvedAt": "2026-04-26T22:00:47.262Z",
+      "verifiedAt": "2026-04-26T22:00:47.262Z"
+    },
+    {
+      "id": "3e24aeba-9f1e-458f-b673-742f5db05961",
+      "reporter": {
+        "publicId": "865ada83-189c-4e84-b836-8712e56c7d28",
+        "displayName": "Kavitha"
+      },
+      "rawText": "Karamadai colony-la borewell motor odanjirukku, 50 veedu kudi tannir illa.",
+      "rawQuote": "borewell motor odanjirukku",
+      "needType": "water",
+      "urgency": "critical",
+      "locationHint": "Karamadai colony",
+      "location": {
+        "lat": 11.235182517942091,
+        "lng": 76.95760427229804,
+        "formattedAddress": "Karamadai colony, Karamadai, Tamil Nadu"
+      },
+      "beneficiaryCount": 200,
+      "language": "ta",
+      "status": "verified",
+      "assignedTo": "a0e26f42-6601-4ba1-a4ba-26710a683660",
+      "reasoning": "50 households without drinking water; motor repair urgent.",
+      "verifiedPhotoUrl": "https://images.unsplash.com/photo-1532634733-cae1395e440f?w=600",
+      "latestPhotoUrl": "https://images.unsplash.com/photo-1532634733-cae1395e440f?w=600",
+      "createdAt": "2026-04-26T15:00:47.262Z",
+      "updatedAt": "2026-04-26T20:00:47.262Z",
+      "resolvedAt": "2026-04-26T20:00:47.262Z",
+      "verifiedAt": "2026-04-26T20:00:47.262Z"
+    },
+    {
+      "id": "675aa1fe-dfc6-4571-8a5d-b89ed139d863",
+      "reporter": {
+        "publicId": "006ac01b-e6d5-46d4-8efa-f3f41aac73ed",
+        "displayName": "Saraswati"
+      },
+      "rawText": "Mettupalayam corner-la oru old man-ku veedu illa, road-la padikuradhu.",
+      "rawQuote": "old man-ku veedu illa",
+      "needType": "shelter",
+      "urgency": "high",
+      "locationHint": "Mettupalayam",
+      "location": {
+        "lat": 11.295530241443522,
+        "lng": 76.93837480176578,
+        "formattedAddress": "Mettupalayam, Mettupalayam, Tamil Nadu"
+      },
+      "beneficiaryCount": 1,
+      "language": "ta",
+      "status": "verified",
+      "assignedTo": "75ae633b-f4f1-4da0-bfaf-a0a2f990f7f8",
+      "reasoning": "Homeless elderly needs urgent shelter placement.",
+      "verifiedPhotoUrl": "https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=600",
+      "latestPhotoUrl": "https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=600",
+      "createdAt": "2026-04-26T13:00:47.262Z",
+      "updatedAt": "2026-04-26T21:00:47.262Z",
+      "resolvedAt": "2026-04-26T21:00:47.262Z",
+      "verifiedAt": "2026-04-26T21:00:47.262Z"
+    },
+    {
+      "id": "908a8fab-6dd4-4b8a-b3e1-2776d22a8357",
+      "reporter": {
+        "publicId": "4634e3f0-b323-47e3-a336-8e396f9547df",
+        "displayName": "Priya"
+      },
+      "rawText": "Sulur water pump-ku weekly maintenance illa, sometimes pressure low.",
+      "rawQuote": "pump-ku weekly maintenance illa",
+      "needType": "water",
+      "urgency": "low",
+      "locationHint": "Sulur water pump station",
+      "location": {
+        "lat": 10.987710884946742,
+        "lng": 77.12416074473589,
+        "formattedAddress": "Sulur water pump station, Sulur, Tamil Nadu"
+      },
+      "beneficiaryCount": null,
+      "language": "ta",
+      "status": "open",
+      "assignedTo": null,
+      "reasoning": "Routine maintenance gap.",
+      "verifiedPhotoUrl": null,
+      "latestPhotoUrl": null,
+      "createdAt": "2026-04-26T12:00:47.262Z",
+      "updatedAt": "2026-04-26T12:00:47.262Z",
+      "resolvedAt": null,
+      "verifiedAt": null
+    },
+    {
+      "id": "a5f3daa0-bd41-4425-8426-82f603538f97",
+      "reporter": {
+        "publicId": "22172583-5192-4ffc-96bb-1e5e0cd6d6af",
+        "displayName": "Meena"
+      },
+      "rawText": "Open drain near bus stand has been overflowing for a week, mosquito breeding heavily.",
+      "rawQuote": "Open drain near bus stand has been overflowing for a week",
+      "needType": "sanitation",
+      "urgency": "high",
+      "locationHint": "Annur bus stand",
+      "location": {
+        "lat": 11.23224554598231,
+        "lng": 77.10215166724078,
+        "formattedAddress": "Annur bus stand, Annur, Tamil Nadu"
+      },
+      "beneficiaryCount": null,
+      "language": "en",
+      "status": "verified",
+      "assignedTo": "e001b2bb-ec23-463a-9b7b-c65fe53c1081",
+      "reasoning": "Standing water + overflow risks dengue/malaria outbreak; municipal escalation.",
+      "verifiedPhotoUrl": "https://images.unsplash.com/photo-1581578017093-cd30fce4eeb7?w=600",
+      "latestPhotoUrl": "https://images.unsplash.com/photo-1581578017093-cd30fce4eeb7?w=600",
+      "createdAt": "2026-04-26T11:00:47.262Z",
+      "updatedAt": "2026-04-26T23:00:47.262Z",
+      "resolvedAt": "2026-04-26T23:00:47.262Z",
+      "verifiedAt": "2026-04-26T23:00:47.262Z"
+    },
+    {
+      "id": "904c4140-3bd7-4fc3-b4e2-bc6ffe8f1c77",
+      "reporter": {
+        "publicId": "865ada83-189c-4e84-b836-8712e56c7d28",
+        "displayName": "Kavitha"
+      },
+      "rawText": "Oru widow-ku monthly pension 2 maasam-a delayed, food panrathukku siramam.",
+      "rawQuote": "oru widow-ku monthly pension delayed",
+      "needType": "food",
+      "urgency": "high",
+      "locationHint": "Karamadai",
+      "location": {
+        "lat": 11.238214595188758,
+        "lng": 76.96842004992942,
+        "formattedAddress": "Karamadai, Karamadai, Tamil Nadu"
+      },
+      "beneficiaryCount": 1,
+      "language": "ta",
+      "status": "verified",
+      "assignedTo": "75ae633b-f4f1-4da0-bfaf-a0a2f990f7f8",
+      "reasoning": "Widow pension lapse; food security at risk.",
+      "verifiedPhotoUrl": "https://images.unsplash.com/photo-1490818387583-1baba5e638af?w=600",
+      "latestPhotoUrl": "https://images.unsplash.com/photo-1490818387583-1baba5e638af?w=600",
+      "createdAt": "2026-04-26T10:00:47.262Z",
+      "updatedAt": "2026-04-26T21:00:47.262Z",
+      "resolvedAt": "2026-04-26T21:00:47.262Z",
+      "verifiedAt": "2026-04-26T21:00:47.262Z"
+    },
+    {
+      "id": "c329c310-038c-4938-9897-645f5bbb02ad",
+      "reporter": {
+        "publicId": "cc2f57fd-9c5b-48e7-bc3c-01820f8c67a7",
+        "displayName": "Lakshmi"
+      },
+      "rawText": "Ward 4-la oru thatha 2 naal-a saapadala, kallur tube well odanjirukku, moonu kuzhandhai-kku rashes.",
+      "rawQuote": "Ward 4-la oru thatha 2 naal-a saapadala",
+      "needType": "food",
+      "urgency": "high",
+      "locationHint": "Ward 4 Pollachi",
+      "location": {
+        "lat": 10.6582,
+        "lng": 77.0096,
+        "formattedAddress": "Ward 4 Pollachi, Pollachi, Tamil Nadu"
+      },
+      "beneficiaryCount": 1,
+      "language": "ta",
+      "status": "verified",
+      "assignedTo": "dc8fbcae-e1ec-4038-abfe-a99b6a3a1afc",
+      "reasoning": "Elderly without food for 2 days indicates urgent food relief.",
+      "verifiedPhotoUrl": "https://images.unsplash.com/photo-1490818387583-1baba5e638af?w=600",
+      "latestPhotoUrl": "https://images.unsplash.com/photo-1490818387583-1baba5e638af?w=600",
+      "createdAt": "2026-04-26T09:00:47.262Z",
+      "updatedAt": "2026-04-26T15:00:47.262Z",
+      "resolvedAt": "2026-04-26T15:00:47.262Z",
+      "verifiedAt": "2026-04-26T15:00:47.262Z"
+    },
+    {
+      "id": "79214ae2-6fe9-42c2-a3a6-3d45a582e482",
+      "reporter": {
+        "publicId": "cc2f57fd-9c5b-48e7-bc3c-01820f8c67a7",
+        "displayName": "Lakshmi"
+      },
+      "rawText": "Ward 4-la oru thatha 2 naal-a saapadala, kallur tube well odanjirukku.",
+      "rawQuote": "kallur tube well odanjirukku",
+      "needType": "water",
+      "urgency": "critical",
+      "locationHint": "Kallur",
+      "location": {
+        "lat": 10.661200000000001,
+        "lng": 77.0056,
+        "formattedAddress": "Kallur, Pollachi, Tamil Nadu"
+      },
+      "beneficiaryCount": null,
+      "language": "ta",
+      "status": "verified",
+      "assignedTo": "635303a3-3e4b-443c-b1df-5ceb99c23fef",
+      "reasoning": "Broken tube well affecting whole village; critical drinking water access.",
+      "verifiedPhotoUrl": "https://images.unsplash.com/photo-1532634733-cae1395e440f?w=600",
+      "latestPhotoUrl": "https://images.unsplash.com/photo-1532634733-cae1395e440f?w=600",
+      "createdAt": "2026-04-26T09:00:47.262Z",
+      "updatedAt": "2026-04-26T13:00:47.262Z",
+      "resolvedAt": "2026-04-26T13:00:47.262Z",
+      "verifiedAt": "2026-04-26T13:00:47.262Z"
+    },
+    {
+      "id": "281be3bc-947c-48fa-a417-09d509e0e77b",
+      "reporter": {
+        "publicId": "cc2f57fd-9c5b-48e7-bc3c-01820f8c67a7",
+        "displayName": "Lakshmi"
+      },
+      "rawText": "Ward 4-la oru thatha 2 naal-a saapadala, moonu kuzhandhai-kku rashes.",
+      "rawQuote": "moonu kuzhandhai-kku rashes",
+      "needType": "health",
+      "urgency": "high",
+      "locationHint": "Ward 4 Pollachi",
+      "location": {
+        "lat": 10.6582,
+        "lng": 77.0096,
+        "formattedAddress": "Ward 4 Pollachi, Pollachi, Tamil Nadu"
+      },
+      "beneficiaryCount": 3,
+      "language": "ta",
+      "status": "verified",
+      "assignedTo": "dc8fbcae-e1ec-4038-abfe-a99b6a3a1afc",
+      "reasoning": "Three children with rashes \u2014 possible scabies outbreak; needs medical assessment.",
+      "verifiedPhotoUrl": "https://images.unsplash.com/photo-1631815589968-fdb09a223b1e?w=600",
+      "latestPhotoUrl": "https://images.unsplash.com/photo-1631815589968-fdb09a223b1e?w=600",
+      "createdAt": "2026-04-26T09:00:47.262Z",
+      "updatedAt": "2026-04-26T17:00:47.262Z",
+      "resolvedAt": "2026-04-26T17:00:47.262Z",
+      "verifiedAt": "2026-04-26T17:00:47.262Z"
+    },
+    {
+      "id": "0ed71df2-4ca6-4d07-9198-95e123d53855",
+      "reporter": {
+        "publicId": "22172583-5192-4ffc-96bb-1e5e0cd6d6af",
+        "displayName": "Meena"
+      },
+      "rawText": "Annur primary school noon meal scheme not consistent, some days only rice.",
+      "rawQuote": "noon meal scheme not consistent",
+      "needType": "food",
+      "urgency": "low",
+      "locationHint": "Annur primary school",
+      "location": {
+        "lat": 11.24426659270187,
+        "lng": 77.09886352568785,
+        "formattedAddress": "Annur primary school, Annur, Tamil Nadu"
+      },
+      "beneficiaryCount": null,
+      "language": "en",
+      "status": "open",
+      "assignedTo": null,
+      "reasoning": "Mid-day meal quality lapse; admin escalation.",
+      "verifiedPhotoUrl": null,
+      "latestPhotoUrl": null,
+      "createdAt": "2026-04-26T07:00:47.262Z",
+      "updatedAt": "2026-04-26T07:00:47.262Z",
+      "resolvedAt": null,
+      "verifiedAt": null
+    },
+    {
+      "id": "c74d5390-0c83-434f-9389-282395f40dfb",
+      "reporter": {
+        "publicId": "006ac01b-e6d5-46d4-8efa-f3f41aac73ed",
+        "displayName": "Saraswati"
+      },
+      "rawText": "Anganwadi 5-la kuzhandhai-kku biscuit varala 1 week-a.",
+      "rawQuote": "anganwadi-la kuzhandhai-kku biscuit varala",
+      "needType": "food",
+      "urgency": "medium",
+      "locationHint": "Anganwadi 5 Mettupalayam",
+      "location": {
+        "lat": 11.306526150193625,
+        "lng": 76.93572292852609,
+        "formattedAddress": "Anganwadi 5 Mettupalayam, Mettupalayam, Tamil Nadu"
+      },
+      "beneficiaryCount": null,
+      "language": "ta",
+      "status": "verified",
+      "assignedTo": "75ae633b-f4f1-4da0-bfaf-a0a2f990f7f8",
+      "reasoning": "Supplementary nutrition gap for under-5 children.",
+      "verifiedPhotoUrl": "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=600",
+      "latestPhotoUrl": "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=600",
+      "createdAt": "2026-04-26T07:00:47.262Z",
+      "updatedAt": "2026-04-26T21:00:47.262Z",
+      "resolvedAt": "2026-04-26T21:00:47.262Z",
+      "verifiedAt": "2026-04-26T21:00:47.262Z"
+    },
+    {
+      "id": "01be3639-03c7-45ad-adc9-570ff3eb9667",
+      "reporter": {
+        "publicId": "22172583-5192-4ffc-96bb-1e5e0cd6d6af",
+        "displayName": "Meena"
+      },
+      "rawText": "Pillaiyar koil paksamaaga thanni illa 4 naal-a.",
+      "rawQuote": "pillaiyar koil paksamaaga thanni illa",
+      "needType": "water",
+      "urgency": "high",
+      "locationHint": "Annur Pillaiyar temple area",
+      "location": {
+        "lat": 11.233891763943932,
+        "lng": 77.11486700425962,
+        "formattedAddress": "Annur Pillaiyar temple area, Annur, Tamil Nadu"
+      },
+      "beneficiaryCount": null,
+      "language": "ta",
+      "status": "verified",
+      "assignedTo": "e3e657d9-ce57-466e-9386-e31bb2306b4b",
+      "reasoning": "Water shortage in 4 households for 4 days.",
+      "verifiedPhotoUrl": "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?w=600",
+      "latestPhotoUrl": "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?w=600",
+      "createdAt": "2026-04-26T07:00:47.262Z",
+      "updatedAt": "2026-04-26T16:00:47.262Z",
+      "resolvedAt": "2026-04-26T16:00:47.262Z",
+      "verifiedAt": "2026-04-26T16:00:47.262Z"
+    },
+    {
+      "id": "c966439d-f779-4da7-a59f-666b5c0c5a7b",
+      "reporter": {
+        "publicId": "4634e3f0-b323-47e3-a336-8e396f9547df",
+        "displayName": "Priya"
+      },
+      "rawText": "Anganwadi 3 mein paani nahi aa raha hai do din se, bachhon ko nahane ka problem hai.",
+      "rawQuote": "Sulur ke anganwadi mein paani nahi hai",
+      "needType": "water",
+      "urgency": "high",
+      "locationHint": "Anganwadi 3 Sulur",
+      "location": {
+        "lat": 11.000457436688931,
+        "lng": 77.12574185294949,
+        "formattedAddress": "Anganwadi 3 Sulur, Sulur, Tamil Nadu"
+      },
+      "beneficiaryCount": null,
+      "language": "hi",
+      "status": "verified",
+      "assignedTo": "635303a3-3e4b-443c-b1df-5ceb99c23fef",
+      "reasoning": "Childcare centre without water for 2 days affects 30+ children.",
+      "verifiedPhotoUrl": "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?w=600",
+      "latestPhotoUrl": "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?w=600",
+      "createdAt": "2026-04-26T05:00:47.262Z",
+      "updatedAt": "2026-04-26T11:00:47.262Z",
+      "resolvedAt": "2026-04-26T11:00:47.262Z",
+      "verifiedAt": "2026-04-26T11:00:47.262Z"
+    },
+    {
+      "id": "6cc153c4-ce13-4a2c-80c4-30d7451466e8",
+      "reporter": {
+        "publicId": "006ac01b-e6d5-46d4-8efa-f3f41aac73ed",
+        "displayName": "Saraswati"
+      },
+      "rawText": "Mettupalayam panchayat office has no police helpline number displayed.",
+      "rawQuote": "no police helpline number displayed",
+      "needType": "safety",
+      "urgency": "medium",
+      "locationHint": "Mettupalayam panchayat office",
+      "location": {
+        "lat": 11.306340928612784,
+        "lng": 76.94376528538466,
+        "formattedAddress": "Mettupalayam panchayat office, Mettupalayam, Tamil Nadu"
+      },
+      "beneficiaryCount": null,
+      "language": "en",
+      "status": "open",
+      "assignedTo": null,
+      "reasoning": "Public information gap; helpline display campaign.",
+      "verifiedPhotoUrl": null,
+      "latestPhotoUrl": null,
+      "createdAt": "2026-04-26T04:00:47.262Z",
+      "updatedAt": "2026-04-26T04:00:47.262Z",
+      "resolvedAt": null,
+      "verifiedAt": null
+    },
+    {
+      "id": "21533484-65e2-4b38-a851-eaaded21530a",
+      "reporter": {
+        "publicId": "4634e3f0-b323-47e3-a336-8e396f9547df",
+        "displayName": "Priya"
+      },
+      "rawText": "Sulur primary health centre has no fever medicine since Monday.",
+      "rawQuote": "PHC has no fever medicine since Monday",
+      "needType": "health",
+      "urgency": "critical",
+      "locationHint": "Sulur PHC",
+      "location": {
+        "lat": 11.001234120899388,
+        "lng": 77.11292423906418,
+        "formattedAddress": "Sulur PHC, Sulur, Tamil Nadu"
+      },
+      "beneficiaryCount": null,
+      "language": "en",
+      "status": "verified",
+      "assignedTo": "2aa6bc10-a9b7-41af-8235-3ac3f3153dbf",
+      "reasoning": "Stockout of basic medicine at PHC during fever season is critical.",
+      "verifiedPhotoUrl": "https://images.unsplash.com/photo-1631815589968-fdb09a223b1e?w=600",
+      "latestPhotoUrl": "https://images.unsplash.com/photo-1631815589968-fdb09a223b1e?w=600",
+      "createdAt": "2026-04-26T01:00:47.262Z",
+      "updatedAt": "2026-04-26T06:00:47.262Z",
+      "resolvedAt": "2026-04-26T06:00:47.262Z",
+      "verifiedAt": "2026-04-26T06:00:47.262Z"
+    },
+    {
+      "id": "ee5f39c0-dbf5-4b62-b6bf-be00b3ffb80c",
+      "reporter": {
+        "publicId": "cc2f57fd-9c5b-48e7-bc3c-01820f8c67a7",
+        "displayName": "Lakshmi"
+      },
+      "rawText": "Pollachi government primary school water filter odanjirukku 2 weeks-a.",
+      "rawQuote": "school water filter odanjirukku",
+      "needType": "water",
+      "urgency": "medium",
+      "locationHint": "Pollachi government primary school",
+      "location": {
+        "lat": 10.666068402551245,
+        "lng": 77.0037978977677,
+        "formattedAddress": "Pollachi government primary school, Pollachi, Tamil Nadu"
+      },
+      "beneficiaryCount": null,
+      "language": "ta",
+      "status": "verified",
+      "assignedTo": "635303a3-3e4b-443c-b1df-5ceb99c23fef",
+      "reasoning": "No clean drinking water at school for students.",
+      "verifiedPhotoUrl": "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?w=600",
+      "latestPhotoUrl": "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?w=600",
+      "createdAt": "2026-04-26T01:00:47.262Z",
+      "updatedAt": "2026-04-26T14:00:47.262Z",
+      "resolvedAt": "2026-04-26T14:00:47.262Z",
+      "verifiedAt": "2026-04-26T14:00:47.262Z"
+    },
+    {
+      "id": "d3d51847-b1d2-4ed6-8783-67bfa38ebf22",
+      "reporter": {
+        "publicId": "865ada83-189c-4e84-b836-8712e56c7d28",
+        "displayName": "Kavitha"
+      },
+      "rawText": "Public bus shelter has no roof, women wait in sun + rain.",
+      "rawQuote": "public bus shelter has no roof",
+      "needType": "infrastructure",
+      "urgency": "medium",
+      "locationHint": "Karamadai bus stop",
+      "location": {
+        "lat": 11.24238485790169,
+        "lng": 76.96406394749641,
+        "formattedAddress": "Karamadai bus stop, Karamadai, Tamil Nadu"
+      },
+      "beneficiaryCount": null,
+      "language": "en",
+      "status": "open",
+      "assignedTo": null,
+      "reasoning": "Inadequate public infrastructure; passenger safety in monsoon.",
+      "verifiedPhotoUrl": null,
+      "latestPhotoUrl": null,
+      "createdAt": "2026-04-25T23:00:47.262Z",
+      "updatedAt": "2026-04-25T23:00:47.262Z",
+      "resolvedAt": null,
+      "verifiedAt": null
+    },
+    {
+      "id": "20bd19be-2cb7-43e1-a4a5-7ea5ae3a5c03",
+      "reporter": {
+        "publicId": "22172583-5192-4ffc-96bb-1e5e0cd6d6af",
+        "displayName": "Meena"
+      },
+      "rawText": "Two girls dropped out of school last week. Family says they cannot afford books.",
+      "rawQuote": "Two girls dropped out of school last week",
+      "needType": "education",
+      "urgency": "medium",
+      "locationHint": "Annur",
+      "location": {
+        "lat": 11.24051501456748,
+        "lng": 77.10504791266763,
+        "formattedAddress": "Annur, Annur, Tamil Nadu"
+      },
+      "beneficiaryCount": 2,
+      "language": "en",
+      "status": "verified",
+      "assignedTo": "d8ce1eb1-3d50-4365-8b54-14f8d459cf2b",
+      "reasoning": "Education access loss for two girls; needs counselling + book support.",
+      "verifiedPhotoUrl": "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600",
+      "latestPhotoUrl": "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600",
+      "createdAt": "2026-04-25T21:00:47.262Z",
+      "updatedAt": "2026-04-26T15:00:47.262Z",
+      "resolvedAt": "2026-04-26T15:00:47.262Z",
+      "verifiedAt": "2026-04-26T15:00:47.262Z"
+    },
+    {
+      "id": "e6eec496-1d39-41d3-9f8d-90790a6c7751",
+      "reporter": {
+        "publicId": "4634e3f0-b323-47e3-a336-8e396f9547df",
+        "displayName": "Priya"
+      },
+      "rawText": "Window broken at Sulur PHC waiting area, rain coming inside.",
+      "rawQuote": "window broken at PHC",
+      "needType": "shelter",
+      "urgency": "medium",
+      "locationHint": "Sulur PHC",
+      "location": {
+        "lat": 10.993790729737237,
+        "lng": 77.12639103662853,
+        "formattedAddress": "Sulur PHC, Sulur, Tamil Nadu"
+      },
+      "beneficiaryCount": null,
+      "language": "en",
+      "status": "verified",
+      "assignedTo": "6e54cd94-b889-49bb-8313-b22a0901b484",
+      "reasoning": "Repairs needed at health facility for patient comfort.",
+      "verifiedPhotoUrl": "https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=600",
+      "latestPhotoUrl": "https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=600",
+      "createdAt": "2026-04-25T19:00:47.262Z",
+      "updatedAt": "2026-04-26T15:00:47.262Z",
+      "resolvedAt": "2026-04-26T15:00:47.262Z",
+      "verifiedAt": "2026-04-26T15:00:47.262Z"
+    },
+    {
+      "id": "dff747a9-f404-45b5-af4a-8c5e53ffdc33",
+      "reporter": {
+        "publicId": "22172583-5192-4ffc-96bb-1e5e0cd6d6af",
+        "displayName": "Meena"
+      },
+      "rawText": "Anganwadi-la cooking gas cylinder over, sappadu prepare panna mudiyala.",
+      "rawQuote": "angeneadi-la cooking gas illa",
+      "needType": "food",
+      "urgency": "medium",
+      "locationHint": "Annur anganwadi 2",
+      "location": {
+        "lat": 11.233903442035299,
+        "lng": 77.11256561458246,
+        "formattedAddress": "Annur anganwadi 2, Annur, Tamil Nadu"
+      },
+      "beneficiaryCount": null,
+      "language": "ta",
+      "status": "verified",
+      "assignedTo": "6e54cd94-b889-49bb-8313-b22a0901b484",
+      "reasoning": "Cooking gas exhausted; meal preparation halted.",
+      "verifiedPhotoUrl": "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=600",
+      "latestPhotoUrl": "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=600",
+      "createdAt": "2026-04-25T17:00:47.262Z",
+      "updatedAt": "2026-04-26T01:00:47.262Z",
+      "resolvedAt": "2026-04-26T01:00:47.262Z",
+      "verifiedAt": "2026-04-26T01:00:47.262Z"
+    },
+    {
+      "id": "0b3b6dd0-242a-4dbf-978f-47bc4cf53000",
+      "reporter": {
+        "publicId": "865ada83-189c-4e84-b836-8712e56c7d28",
+        "displayName": "Kavitha"
+      },
+      "rawText": "Karamadai middle school-la teacher absenteeism kammi panala.",
+      "rawQuote": "teacher absenteeism high",
+      "needType": "education",
+      "urgency": "low",
+      "locationHint": "Karamadai middle school",
+      "location": {
+        "lat": 11.250553437817278,
+        "lng": 76.958056480858,
+        "formattedAddress": "Karamadai middle school, Karamadai, Tamil Nadu"
+      },
+      "beneficiaryCount": null,
+      "language": "ta",
+      "status": "open",
+      "assignedTo": null,
+      "reasoning": "School quality issue; admin escalation.",
+      "verifiedPhotoUrl": null,
+      "latestPhotoUrl": null,
+      "createdAt": "2026-04-25T16:00:47.262Z",
+      "updatedAt": "2026-04-25T16:00:47.262Z",
+      "resolvedAt": null,
+      "verifiedAt": null
+    },
+    {
+      "id": "452822a3-33d7-41d0-aff3-b8993b8a1008",
+      "reporter": {
+        "publicId": "006ac01b-e6d5-46d4-8efa-f3f41aac73ed",
+        "displayName": "Saraswati"
+      },
+      "rawText": "Tap water in Mettupalayam ward 5 has rust colour, residents are buying from shops.",
+      "rawQuote": "tap water has rust colour",
+      "needType": "water",
+      "urgency": "medium",
+      "locationHint": "Mettupalayam ward 5",
+      "location": {
+        "lat": 11.294679832855428,
+        "lng": 76.94557775050082,
+        "formattedAddress": "Mettupalayam ward 5, Mettupalayam, Tamil Nadu"
+      },
+      "beneficiaryCount": null,
+      "language": "en",
+      "status": "verified",
+      "assignedTo": "635303a3-3e4b-443c-b1df-5ceb99c23fef",
+      "reasoning": "Contaminated water supply needs pipe inspection.",
+      "verifiedPhotoUrl": "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?w=600",
+      "latestPhotoUrl": "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?w=600",
+      "createdAt": "2026-04-25T13:00:47.262Z",
+      "updatedAt": "2026-04-26T07:00:47.262Z",
+      "resolvedAt": "2026-04-26T07:00:47.262Z",
+      "verifiedAt": "2026-04-26T07:00:47.262Z"
+    },
+    {
+      "id": "1056f121-98cf-44b2-a207-40f464b67e38",
+      "reporter": {
+        "publicId": "22172583-5192-4ffc-96bb-1e5e0cd6d6af",
+        "displayName": "Meena"
+      },
+      "rawText": "Annur ke saare ward mein mosquito fogging chahiye, dengue cases barhe hain.",
+      "rawQuote": "mosquito fogging chahiye",
+      "needType": "health",
+      "urgency": "high",
+      "locationHint": "Annur (multiple wards)",
+      "location": {
+        "lat": 11.247870933253292,
+        "lng": 77.10890761369767,
+        "formattedAddress": "Annur (multiple wards), Annur, Tamil Nadu"
+      },
+      "beneficiaryCount": null,
+      "language": "hi",
+      "status": "verified",
+      "assignedTo": "d8ce1eb1-3d50-4365-8b54-14f8d459cf2b",
+      "reasoning": "Dengue surge requires fogging campaign.",
+      "verifiedPhotoUrl": "https://images.unsplash.com/photo-1583912267550-d44c9c46d3a4?w=600",
+      "latestPhotoUrl": "https://images.unsplash.com/photo-1583912267550-d44c9c46d3a4?w=600",
+      "createdAt": "2026-04-25T11:00:47.262Z",
+      "updatedAt": "2026-04-26T09:00:47.262Z",
+      "resolvedAt": "2026-04-26T09:00:47.262Z",
+      "verifiedAt": "2026-04-26T09:00:47.262Z"
+    },
+    {
+      "id": "d960b5ee-9b19-44d6-848a-d86bb5c2c19e",
+      "reporter": {
+        "publicId": "22172583-5192-4ffc-96bb-1e5e0cd6d6af",
+        "displayName": "Meena"
+      },
+      "rawText": "Annur main street light 5 verala 2 weeks-a, ladies-ku night-la pora paya.",
+      "rawQuote": "street light verala 2 weeks-a",
+      "needType": "safety",
+      "urgency": "high",
+      "locationHint": "Annur main street",
+      "location": {
+        "lat": 11.230228293865261,
+        "lng": 77.11207379321459,
+        "formattedAddress": "Annur main street, Annur, Tamil Nadu"
+      },
+      "beneficiaryCount": null,
+      "language": "ta",
+      "status": "verified",
+      "assignedTo": "e001b2bb-ec23-463a-9b7b-c65fe53c1081",
+      "reasoning": "Unlit street creates safety risk especially for women.",
+      "verifiedPhotoUrl": "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=600",
+      "latestPhotoUrl": "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=600",
+      "createdAt": "2026-04-25T01:00:47.262Z",
+      "updatedAt": "2026-04-26T01:00:47.262Z",
+      "resolvedAt": "2026-04-26T01:00:47.262Z",
+      "verifiedAt": "2026-04-26T01:00:47.262Z"
+    },
+    {
+      "id": "69a6236b-9a34-4499-b138-8f944f89bcdf",
+      "reporter": {
+        "publicId": "006ac01b-e6d5-46d4-8efa-f3f41aac73ed",
+        "displayName": "Saraswati"
+      },
+      "rawText": "Cattle waste illogically disposed in stream behind houses, smell unbearable.",
+      "rawQuote": "cattle waste illogically disposed",
+      "needType": "sanitation",
+      "urgency": "medium",
+      "locationHint": "Mettupalayam stream area",
+      "location": {
+        "lat": 11.303889081041591,
+        "lng": 76.929093861233,
+        "formattedAddress": "Mettupalayam stream area, Mettupalayam, Tamil Nadu"
+      },
+      "beneficiaryCount": null,
+      "language": "ta",
+      "status": "verified",
+      "assignedTo": "6e54cd94-b889-49bb-8313-b22a0901b484",
+      "reasoning": "Improper waste disposal; awareness + alternative pit.",
+      "verifiedPhotoUrl": "https://images.unsplash.com/photo-1626197031507-c17099753214?w=600",
+      "latestPhotoUrl": "https://images.unsplash.com/photo-1626197031507-c17099753214?w=600",
+      "createdAt": "2026-04-24T15:00:47.262Z",
+      "updatedAt": "2026-04-25T21:00:47.262Z",
+      "resolvedAt": "2026-04-25T21:00:47.262Z",
+      "verifiedAt": "2026-04-25T21:00:47.262Z"
+    }
+  ],
+  "stats": {
+    "total": 48,
+    "open": 12,
+    "resolved": 28,
+    "avgResolutionMs": 36514285.71428572,
+    "byType": {
+      "food": 8,
+      "water": 8,
+      "health": 11,
+      "shelter": 4,
+      "safety": 4,
+      "sanitation": 6,
+      "infrastructure": 2,
+      "education": 5
+    },
+    "byUrgency": {
+      "medium": 19,
+      "critical": 6,
+      "low": 6,
+      "high": 17
+    },
+    "byLanguage": {
+      "ta": 25,
+      "en": 16,
+      "hi": 7
+    }
+  }
+}
