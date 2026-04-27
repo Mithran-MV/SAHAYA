@@ -18,11 +18,11 @@ ASHA worker voice notes → structured community needs → matched volunteers �
 
 ## Problem statement track
 
-**Smart Resource Allocation** (Open Innovation)
+**[Smart Resource Allocation] Data-Driven Volunteer Coordination for Social Impact**
 
-> Local social groups and NGOs collect a lot of important information about community needs through paper surveys and field reports. However, this valuable data is often scattered across different places, making it hard to see the biggest problems clearly.
+> *"Local social groups and NGOs collect a lot of important information about community needs through paper surveys and field reports. However, this valuable data is often scattered across different places, making it hard to see the biggest problems clearly. Design a powerful system that gathers scattered community information to clearly show the most urgent local needs. Build a smart way to quickly match and connect available volunteers with the specific tasks and areas where they are needed most."*
 
-SAHAYA addresses the **upstream bottleneck**: the data is not just scattered — it is often never reported in the first place because the reporting tools assume English literacy. We replace forms with WhatsApp voice notes.
+SAHAYA is a direct, end-to-end answer to this prompt. We address the **upstream bottleneck** as well — the scattered data is often *never reported in the first place* because the reporting tools assume English literacy and a smartphone form factor that ASHA workers cannot easily use. We replace forms with WhatsApp voice notes in Tamil, Hindi, or English. From there: Gemini extracts structured needs → Maps geocodes them → the heatmap shows urgency hotspots → the closest volunteer with the matching skill and service radius is auto-dispatched → photo verification closes the loop.
 
 ---
 
