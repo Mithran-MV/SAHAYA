@@ -13,7 +13,9 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "typecheck": "tsc --noEmit",
-    "smoke": "curl -fsS http://localhost:8080/health | jq ."
+    "smoke": "curl -fsS http://localhost:8080/health | jq .",
+    "seed": "tsx src/scripts/seed.ts",
+    "seed:wipe": "tsx src/scripts/seed.ts --wipe"
   },
   "dependencies": {
     "@google/genai": "^0.7.0",
