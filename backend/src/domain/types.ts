@@ -46,10 +46,22 @@ export const ExtractionResultSchema = z.object({
 });
 export type ExtractionResult = z.infer<typeof ExtractionResultSchema>;
 
-export interface ReportedBy {
+/**
+ * Reporter info as it arrives from Twilio (PII, never written to needs).
+ */
+export interface RawReporter {
   phone: string;
-  name?: string | null;
-  waId?: string | null;
+  name: string | null;
+  waId: string | null;
+}
+
+/**
+ * Anonymized reporter identity stored alongside each need.
+ * publicId is opaque; displayName is at most a first name.
+ */
+export interface NeedReporter {
+  publicId: string;
+  displayName: string | null;
 }
 
 export interface GeoLocation {
@@ -60,7 +72,7 @@ export interface GeoLocation {
 
 export interface Need {
   id: string;
-  reportedBy: ReportedBy;
+  reporter: NeedReporter;
   rawText: string;
   rawQuote: string;
   needType: NeedType;
@@ -77,6 +89,17 @@ export interface Need {
   resolvedAt?: FirebaseFirestore.Timestamp | null;
 }
 
+export interface AshaWorker {
+  id: string;
+  phone: string;
+  name: string | null;
+  waId: string | null;
+  publicId: string;
+  createdAt: FirebaseFirestore.Timestamp;
+  lastSeenAt: FirebaseFirestore.Timestamp;
+  reportedNeedsCount: number;
+}
+
 export interface Volunteer {
   id: string;
   phone: string;
@@ -85,13 +108,14 @@ export interface Volunteer {
   serviceArea: GeoLocation | null;
   serviceRadiusKm: number;
   active: boolean;
+  publicId: string;
   createdAt: FirebaseFirestore.Timestamp;
 }
 
 export interface Resolution {
   id: string;
   needId: string;
-  volunteerId: string;
+  volunteerPublicId: string;
   photoUrl: string | null;
   verified: boolean;
   verificationConfidence: number | null;
